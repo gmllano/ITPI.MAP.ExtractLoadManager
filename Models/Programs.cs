@@ -1,9 +1,8 @@
-using FileHelpers;
 using System;
 
 namespace ITPI.MAP.ExtractLoadManager
 {
-	[DelimitedRecord(",")]
+	
 	public class Programs
 	{		
 		public string ProgramTitle { get; set; }

@@ -1,15 +1,8 @@
-﻿using FileHelpers;
-using FileHelpers.Dynamic;
-using FileHelpers.Options;
-using log4net;
-using Microsoft.VisualBasic.FileIO;
+﻿using Microsoft.VisualBasic.FileIO;
 using System;
 using System.Collections.Generic;
-using System.Data;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ITPI.MAP.ExtractLoadManager
 {
@@ -478,8 +471,6 @@ namespace ITPI.MAP.ExtractLoadManager
 				this.Log.Error($"Error occurred reading the program csv file. file {fileName}, exception {exp.Message}");
 				return null;
 			}
-
-
 		}
 
 		#endregion
