@@ -1,0 +1,6 @@
+2020-06-15 20:30:00,160 INFO - BEGIN - Extract and load all files from folder.
+2020-06-15 20:30:00,176 INFO - Get semesters from database.
+2020-06-15 20:30:00,254 INFO - Get files from folder C:\EMS_EXTRACTS\
+2020-06-15 20:30:00,566 INFO - The file DailyExtractEMS_20207.json will be loaded.
+2020-06-15 20:30:09,264 INFO - THe file DailyExtractEMS_20207.json completed. Number of records loaded 4318
+2020-06-15 20:30:09,264 INFO - DONE - Extract and load has completed.

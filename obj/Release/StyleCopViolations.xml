@@ -1,0 +1,3 @@
+<StyleCopViolations>
+  <Violation LineNumber="153" Source="C:\Users\georgel\Documents\ITPI\DataExtractManager\ITPI.MAP.DataExtractManager\OrchestrationManager.cs" RuleNamespace="StyleCop.CSharp.LayoutRules" Rule="ClosingCurlyBracketsMustNotBePrecededByBlankLine" RuleId="SA1508">A closing curly bracket must not be preceded by a blank line.</Violation>
+</StyleCopViolations>
