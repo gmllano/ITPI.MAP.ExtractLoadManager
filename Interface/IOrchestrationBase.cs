@@ -14,6 +14,10 @@ namespace ITPI.MAP.ExtractLoadManager
 		/// </summary>
 		ILogger Log { get; set; }
 
+		bool LoadStaging { get; set; }
+
+		bool LoadTarget { get; set; }
+
 		Dictionary<EnumManager.programType, FileInfo> GetFiles();
 
 		bool InsertProgramRequirements(List<ProgramRequirements> programRequirements, ref int programCnt);
@@ -29,5 +33,7 @@ namespace ITPI.MAP.ExtractLoadManager
 		List<ProgramsCatalogsCreditReq> MapProgramsCatalog(FileInfo file);
 
 		bool ClearOutProgramTables();
+
+		bool ClearOutStagingTables();
 	}
 }

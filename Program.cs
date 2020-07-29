@@ -19,6 +19,8 @@ namespace ITPI.MAP.ExtractLoadManager
 				var sourceConnection = ConfigurationManager.AppSettings["SourceConnection"];
 				var targetConnection = ConfigurationManager.AppSettings["TargetConnection"];
 				var college = ConfigurationManager.AppSettings["College"];
+				var loadStaging = Convert.ToBoolean(ConfigurationManager.AppSettings["LoadStaging"]);
+				var loadTarget = Convert.ToBoolean(ConfigurationManager.AppSettings["LoadTarget"]);
 
 				if (string.IsNullOrEmpty(sourcePath))
 				{
@@ -44,7 +46,13 @@ namespace ITPI.MAP.ExtractLoadManager
 							   (pi, ctx) => sourcePath))
 					.WithParameter(new ResolvedParameter(
 							   (pi, ctx) => pi.ParameterType == typeof(EnumManager.FileTypes) && pi.Name == "fileType",
-							   (pi, ctx) => EnumManager.FileTypes.CSV));
+							   (pi, ctx) => EnumManager.FileTypes.CSV))
+					.WithParameter(new ResolvedParameter(
+							   (pi, ctx) => pi.ParameterType == typeof(bool) && pi.Name == "loadStaging",
+							   (pi, ctx) => loadStaging))
+					.WithParameter(new ResolvedParameter(
+							   (pi, ctx) => pi.ParameterType == typeof(bool) && pi.Name == "loadTarget",
+							   (pi, ctx) => loadTarget));
 
 				Container = builder.Build();
 
@@ -52,6 +60,7 @@ namespace ITPI.MAP.ExtractLoadManager
 			}
 			catch (Exception exp)
 			{
+				Console.WriteLine($"Program.Main() failed to complete. Exception {exp.Message}");
 				throw exp;
 			}
 		}
@@ -77,7 +86,7 @@ namespace ITPI.MAP.ExtractLoadManager
 				catch (Exception exp)
 				{
 					var result = scope.Resolve<Logger>();
-					result.Error($"Program file, Run method, {exp.Message}");
+					result.Error($"Program() | Run() method failed., {exp.Message}");
 				}
 			}
 		}

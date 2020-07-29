@@ -30,12 +30,15 @@ namespace ITPI.MAP.ExtractLoadManager
 		/// <param name="sourcePath">The source path of the files.</param>
 		/// <param name="dataManager">The data manager.</param>
 		/// <param name="logger">The log.</param>
-		public ChaffeyOrchestrationManager(string sourcePath, EnumManager.FileTypes fileType, IDataManager dataManager, ILogger logger)
+		public ChaffeyOrchestrationManager(string sourcePath, EnumManager.FileTypes fileType, bool loadStaging, 
+			bool loadTarget, IDataManager dataManager, ILogger logger)
 		{
 			this.SourcePath = sourcePath;
 			this.Log = logger;
 			this.fileType = fileType;
 			this.dataManager = dataManager;
+			this.LoadStaging = loadStaging;
+			this.LoadTarget = loadTarget;
 		}
 
 		#endregion
@@ -299,6 +302,23 @@ namespace ITPI.MAP.ExtractLoadManager
 			}
 		}
 
+		/// <summary>
+		/// Clear out staging tables.
+		/// </summary>
+		/// <returns>A value indicating the success of clearning out the tables.</returns>
+		public override bool ClearOutStagingTables()
+		{
+			try
+			{
+				return this.dataManager.ClearOutStageTables();
+			}
+			catch (Exception exp)
+			{
+				this.Log.Error($"Unable to clear out staging tables. Exception {exp.Message}");
+				return false;
+			}
+		}
+
 		#endregion
 
 		#region private methods
@@ -307,7 +327,7 @@ namespace ITPI.MAP.ExtractLoadManager
 		/// Map Program data.
 		/// </summary>
 		/// <param name="fileName">The file name.</param>
-		public List<Programs> ReadProgramFile(string fileName)
+		private List<Programs> ReadProgramFile(string fileName)
 		{
 			List<Programs> programs = new List<Programs>();
 
@@ -366,7 +386,7 @@ namespace ITPI.MAP.ExtractLoadManager
 		/// Map Program Requirement data.
 		/// </summary>
 		/// <param name="fileName">The file name.</param>
-		public List<ProgramRequirements> ReadProgramRequirementFile(string fileName)
+		private List<ProgramRequirements> ReadProgramRequirementFile(string fileName)
 		{
 			List<ProgramRequirements> programsReqs = new List<ProgramRequirements>();
 
@@ -427,7 +447,7 @@ namespace ITPI.MAP.ExtractLoadManager
 		/// Map Program Catalog Credit Requirements data.
 		/// </summary>
 		/// <param name="fileName">The file name.</param>
-		public List<ProgramsCatalogsCreditReq> ReadProgramCatalogFile(string fileName)
+		private List<ProgramsCatalogsCreditReq> ReadProgramCatalogFile(string fileName)
 		{
 			List<ProgramsCatalogsCreditReq> programCatalogs = new List<ProgramsCatalogsCreditReq>();
 

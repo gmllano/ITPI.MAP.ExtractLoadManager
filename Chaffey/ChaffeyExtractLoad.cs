@@ -61,14 +61,14 @@ namespace ITPI.MAP.ExtractLoadManager
 
 					// I'm assuming that all three files will always be present. Not sure how you would
 					// load just one file into MAP without the others.
-					if (programs == null || programRequirements == null || programCatalogCredits == null)
+					if (programs?.Count <= 0 || programRequirements?.Count <= 0 || programCatalogCredits?.Count <= 0)
 					{
 						orchestration.Log.Error("One or more files were not mapped correctly. Load can't be completed.");
 						return false;
 					}
 
 					// Insert data.
-					this.orchestration.Log.Info("INSERTING RECORDS...");
+					this.orchestration.Log.Info("Inserting into TEMPORARY PROGRAM tables...");
 					var programResult = orchestration.InsertPrograms(programs, ref programCnt);
 					var programReqResult = orchestration.InsertProgramRequirements(programRequirements, ref programReqCnt);
 					var programCatalogResult = orchestration.InsertProgramCatalogCreditReq(programCatalogCredits, ref programCatalogCnt);
@@ -78,11 +78,26 @@ namespace ITPI.MAP.ExtractLoadManager
 						this.orchestration.Log.Info($"{programCnt} program records inserted.");
 						this.orchestration.Log.Info($"{programReqCnt} program requirements records inserted.");
 						this.orchestration.Log.Info($"{programCatalogCnt} program catalog records inserted.");
-						orchestration.Log.Info("Insert completed successfully. Check log file for any warnings.");
+						
+						if (orchestration.LoadStaging)  // Load staging tables.
+						{
+							this.orchestration.Log.Info("Inserting into STAGING tables...");
+							var stageCleared = this.orchestration.ClearOutStagingTables();
+							if (!stageCleared) 
+							{
+								orchestration.Log.Error("Unable to clear out staging tables. Stage update has stopped.");
+								return false;
+							}
+						}
+
+						if (orchestration.LoadTarget) // Load MAP target tables.
+						{
+							this.orchestration.Log.Info("Inserting into MAP TARGET tables...");
+						}
 					}
 					else
 					{
-						orchestration.Log.Info("Insert completed with errors, check the log file for errors.");
+						orchestration.Log.Error("Insert completed with errors, check the log file for errors.");
 						return false;
 					}
 
