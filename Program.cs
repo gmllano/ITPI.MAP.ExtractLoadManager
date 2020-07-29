@@ -16,7 +16,8 @@ namespace ITPI.MAP.ExtractLoadManager
 			try
 			{
 				string sourcePath = ConfigurationManager.AppSettings["SourcePath"];
-				var connectionStr = ConfigurationManager.AppSettings["ConnectionStr"];
+				var sourceConnection = ConfigurationManager.AppSettings["SourceConnection"];
+				var targetConnection = ConfigurationManager.AppSettings["TargetConnection"];
 				var college = ConfigurationManager.AppSettings["College"];
 
 				if (string.IsNullOrEmpty(sourcePath))
@@ -24,7 +25,7 @@ namespace ITPI.MAP.ExtractLoadManager
 					throw new ApplicationException("Source directory path is missing from configuration.");
 				}
 
-				if (string.IsNullOrEmpty(connectionStr))
+				if (string.IsNullOrEmpty(sourceConnection))
 				{
 					throw new ApplicationException("Connection string is missing from configuration.");
 				}
@@ -32,8 +33,11 @@ namespace ITPI.MAP.ExtractLoadManager
 				builder.RegisterType<Logger>().As<ILogger>();
 				builder.RegisterType<DataManager>().As<IDataManager>()
 				.WithParameter(new ResolvedParameter(
-							   (pi, ctx) => pi.ParameterType == typeof(string) && pi.Name == "connectionStr",
-							   (pi, ctx) => connectionStr));
+							   (pi, ctx) => pi.ParameterType == typeof(string) && pi.Name == "sourceConnection",
+							   (pi, ctx) => sourceConnection))
+				.WithParameter(new ResolvedParameter(
+							   (pi, ctx) => pi.ParameterType == typeof(string) && pi.Name == "targetConnection",
+							   (pi, ctx) => targetConnection));
 				builder.RegisterType<ChaffeyOrchestrationManager>().As<IOrchestrationBase>()
 					.WithParameter(new ResolvedParameter(
 							   (pi, ctx) => pi.ParameterType == typeof(string) && pi.Name == "sourcePath",

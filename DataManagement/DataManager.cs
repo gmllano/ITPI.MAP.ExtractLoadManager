@@ -16,9 +16,14 @@ namespace ITPI.MAP.ExtractLoadManager
 		#region variables
 
 		/// <summary>
-		/// The database server connection object.
+		/// The database source connection string.
 		/// </summary>
-		private readonly string connectionStr = string.Empty;
+		private readonly string sourceConnection = string.Empty;
+
+		/// <summary>
+		/// The database target connection string.
+		/// </summary>
+		private readonly string targetConnection = string.Empty;
 
 		/// <summary>
 		/// The logger.
@@ -34,9 +39,10 @@ namespace ITPI.MAP.ExtractLoadManager
 		/// </summary>
 		/// <param name="connectionStr">The connection string.</param>
 		/// <param name="log">The log file.</param>
-		public DataManager(string connectionStr, ILogger log)
+		public DataManager(string sourceConnection, string targetConnection, ILogger log)
 		{
-			this.connectionStr = connectionStr;
+			this.sourceConnection = sourceConnection;
+			this.targetConnection = targetConnection;
 			this.log = log;
 		}
 
@@ -44,11 +50,17 @@ namespace ITPI.MAP.ExtractLoadManager
 
 		#region public methods 
 		
+		/// <summary>
+		/// Insert program data.
+		/// </summary>
+		/// <param name="program">The program information.</param>
+		/// <param name="programCnt">The count of program records.</param>
+		/// <returns>A value indicating success of inserting program data.</returns>
 		public bool InsertProgram(Programs program, ref int programCnt)
 		{
 			bool result = false;
 
-			if (string.IsNullOrEmpty(this.connectionStr))
+			if (string.IsNullOrEmpty(this.sourceConnection))
 			{
 				throw new ApplicationException("Connection string is empty or missing.");
 			}
@@ -58,7 +70,7 @@ namespace ITPI.MAP.ExtractLoadManager
 				try
 				{
 					programCnt += 1;
-					var connection = new SqlConnection(this.connectionStr);
+					var connection = new SqlConnection(this.sourceConnection);
 					var parameters = new DynamicParameters(program);
 					
 					using (var conn = connection)
@@ -95,7 +107,7 @@ namespace ITPI.MAP.ExtractLoadManager
 		{
 			bool result = false;
 
-			if (string.IsNullOrEmpty(this.connectionStr))
+			if (string.IsNullOrEmpty(this.sourceConnection))
 			{
 				throw new ApplicationException("Connection string is empty or missing.");
 			}
@@ -105,7 +117,7 @@ namespace ITPI.MAP.ExtractLoadManager
 				try
 				{
 					programCnt += 1;
-					var connection = new SqlConnection(this.connectionStr);
+					var connection = new SqlConnection(this.sourceConnection);
 					var parameters = new DynamicParameters(programRequirement);
 
 					using (var conn = connection)
@@ -142,7 +154,7 @@ namespace ITPI.MAP.ExtractLoadManager
 		{
 			bool result = false;
 
-			if (string.IsNullOrEmpty(this.connectionStr))
+			if (string.IsNullOrEmpty(this.sourceConnection))
 			{
 				throw new ApplicationException("Connection string is empty or missing.");
 			}
@@ -152,7 +164,7 @@ namespace ITPI.MAP.ExtractLoadManager
 				try
 				{
 					programCatalogCnt += 1;
-					var connection = new SqlConnection(this.connectionStr);
+					var connection = new SqlConnection(this.sourceConnection);
 					var parameters = new DynamicParameters(programCatalogs);
 
 					using (var conn = connection)
@@ -187,7 +199,7 @@ namespace ITPI.MAP.ExtractLoadManager
 		{
 			try
 			{
-				var connection = new SqlConnection(this.connectionStr);
+				var connection = new SqlConnection(this.sourceConnection);
 
 				using (var conn = connection)
 				{
@@ -201,6 +213,32 @@ namespace ITPI.MAP.ExtractLoadManager
 			catch (Exception exp)
 			{
 				log.Error($"Error occurred trying to clear out the temporary Program tables, Exception {exp.Message}");
+				return false;
+			}
+		}
+
+		/// <summary>
+		/// Clear out the stage tables.
+		/// </summary>
+		/// <returns>Returns a value indicating the success of clearing out the stage tables.</returns>
+		public bool ClearOutStageTables()
+		{
+			try
+			{
+				var connection = new SqlConnection(this.sourceConnection);
+
+				using (var conn = connection)
+				{
+					conn.Open();
+					var sproc = "dbo.StageTables_Del";
+					var value = connection.Execute(sproc, commandType: CommandType.StoredProcedure);
+
+					return Convert.ToBoolean(value);
+				}
+			}
+			catch (Exception exp)
+			{
+				log.Error($"Error occurred trying to clear out the staging tables, Exception {exp.Message}");
 				return false;
 			}
 		}

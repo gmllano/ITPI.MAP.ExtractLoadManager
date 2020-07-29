@@ -42,6 +42,7 @@ C:\Users\georgel\Documents\ITPI\Colleges\Extract\bin\Debug\Microsoft.Bcl.AsyncIn
 C:\Users\georgel\Documents\ITPI\Colleges\Extract\bin\Debug\Newtonsoft.Json.xml
 C:\Users\georgel\Documents\ITPI\Colleges\Extract\bin\Debug\System.Runtime.CompilerServices.Unsafe.xml
 C:\Users\georgel\Documents\ITPI\Colleges\Extract\bin\Debug\System.Threading.Tasks.Extensions.xml
+C:\Users\georgel\Documents\ITPI\Colleges\Extract\obj\Debug\ITPI.MAP.ExtractLoadManager.csprojAssemblyReference.cache
 C:\Users\georgel\Documents\ITPI\Colleges\Extract\obj\Debug\ITPI.MAP.ExtractLoadManager.csproj.CoreCompileInputs.cache
 C:\Users\georgel\Documents\ITPI\Colleges\Extract\obj\Debug\ITPI.MAP.ExtractLoadManager.csproj.CopyComplete
 C:\Users\georgel\Documents\ITPI\Colleges\Extract\obj\Debug\ITPI.MAP.ExtractLoadManager.exe

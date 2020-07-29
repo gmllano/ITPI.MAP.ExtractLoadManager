@@ -334,7 +334,7 @@
     <timestamps>
       <styleCop>2019/04/08 20:27:32.000</styleCop>
       <settingsFile>2020/06/16 20:56:37.668</settingsFile>
-      <sourceFile>2020/07/26 20:59:41.360</sourceFile>
+      <sourceFile>2020/07/29 10:24:11.700</sourceFile>
       <parser>2019/04/08 20:27:32.000</parser>
       <StyleCop.CSharp.DocumentationRules>2019/04/08 20:27:32.000</StyleCop.CSharp.DocumentationRules>
       <StyleCop.CSharp.DocumentationRules.FilesHashCode>785256906</StyleCop.CSharp.DocumentationRules.FilesHashCode>
@@ -354,7 +354,12 @@
     <violations>
       <violation namespace="StyleCop.CSharp.LayoutRules" rule="ClosingCurlyBracketsMustNotBePrecededByBlankLine" ruleCheckId="SA1508">
         <context>A closing curly bracket must not be preceded by a blank line.</context>
-        <line>210</line>
+        <line>248</line>
+        <warning>False</warning>
+      </violation>
+      <violation namespace="StyleCop.CSharp.DocumentationRules" rule="ElementParameterDocumentationMustMatchElementParameters" ruleCheckId="SA1612">
+        <context>The param tags in the documentation header must match the element's parameter list.</context>
+        <line>42</line>
         <warning>False</warning>
       </violation>
     </violations>
@@ -569,7 +574,7 @@
     <timestamps>
       <styleCop>2019/04/08 20:27:32.000</styleCop>
       <settingsFile>2020/06/16 20:56:37.668</settingsFile>
-      <sourceFile>2020/07/26 21:33:29.262</sourceFile>
+      <sourceFile>2020/07/29 10:17:39.076</sourceFile>
       <parser>2019/04/08 20:27:32.000</parser>
       <StyleCop.CSharp.DocumentationRules>2019/04/08 20:27:32.000</StyleCop.CSharp.DocumentationRules>
       <StyleCop.CSharp.DocumentationRules.FilesHashCode>785256906</StyleCop.CSharp.DocumentationRules.FilesHashCode>
@@ -598,7 +603,7 @@
     <timestamps>
       <styleCop>2019/04/08 20:27:32.000</styleCop>
       <settingsFile>2020/06/16 20:56:37.668</settingsFile>
-      <sourceFile>2020/07/26 00:04:11.863</sourceFile>
+      <sourceFile>2020/07/29 10:20:43.829</sourceFile>
       <parser>2019/04/08 20:27:32.000</parser>
       <StyleCop.CSharp.DocumentationRules>2019/04/08 20:27:32.000</StyleCop.CSharp.DocumentationRules>
       <StyleCop.CSharp.DocumentationRules.FilesHashCode>785256906</StyleCop.CSharp.DocumentationRules.FilesHashCode>

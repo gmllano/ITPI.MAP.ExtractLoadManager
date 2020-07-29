@@ -38,5 +38,11 @@ namespace ITPI.MAP.ExtractLoadManager
 		/// </summary>
 		/// <returns>A value indicating the success of clearing out the program tables.</returns>
 		bool ClearOutProgramTables();
+
+		/// <summary>
+		/// Clear out stage tables.
+		/// </summary>
+		/// <returns>A value indicating the success of clearing out the staging tables.</returns>
+		bool ClearOutStageTables();
 	}
 }
