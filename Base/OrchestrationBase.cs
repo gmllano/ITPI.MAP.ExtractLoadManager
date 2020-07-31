@@ -72,6 +72,8 @@ namespace ITPI.MAP.ExtractLoadManager
 		/// <returns>A value indicating success.</returns>
 		public abstract bool ClearOutStagingTables();
 
+		public abstract bool InsertStagingData();
+		
 		/// <summary>
 		/// The log.
 		/// </summary>

@@ -319,6 +319,23 @@ namespace ITPI.MAP.ExtractLoadManager
 			}
 		}
 
+		/// <summary>
+		/// Insert staging data.
+		/// </summary>
+		/// <returns>Return a value.</returns>
+		public override bool InsertStagingData()
+		{
+			try
+			{
+				return this.dataManager.InsertStagingData();
+			}
+			catch (Exception exp)
+			{
+				this.Log.Error($"Unable to populate staging tables. Exception {exp.Message}");
+				return false;
+			}
+		}
+
 		#endregion
 
 		#region private methods

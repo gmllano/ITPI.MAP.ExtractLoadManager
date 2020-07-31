@@ -44,5 +44,11 @@ namespace ITPI.MAP.ExtractLoadManager
 		/// </summary>
 		/// <returns>A value indicating the success of clearing out the staging tables.</returns>
 		bool ClearOutStageTables();
+
+		/// <summary>
+		/// Insert staging data.
+		/// </summary>
+		/// <returns>A value indicating success.</returns>
+		bool InsertStagingData();
 	}
 }

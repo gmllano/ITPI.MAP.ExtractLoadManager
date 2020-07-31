@@ -243,6 +243,41 @@ namespace ITPI.MAP.ExtractLoadManager
 			}
 		}
 
+		/// <summary>
+		/// Insert staging data.
+		/// </summary>
+		/// <returns>Return a value indicating success.</returns>
+		public bool InsertStagingData()
+		{
+			bool result = false;
+
+			if (string.IsNullOrEmpty(this.sourceConnection))
+			{
+				throw new ApplicationException("Connection string is empty or missing.");
+			}
+
+			try
+			{
+				var connection = new SqlConnection(this.sourceConnection);
+
+				using (var conn = connection)
+				{
+					conn.Open();
+					var sproc = "dbo.StageTables_Ins";
+					var value = connection.Execute(sproc,
+						commandType: CommandType.StoredProcedure);
+
+					result = true;
+				}
+			}
+			catch (Exception exp)
+			{
+				log.Error($"Failed to populate staging data,  exception {exp.Message}");
+			}
+
+			return result;
+		}
+
 		#endregion
 
 	}

@@ -88,6 +88,12 @@ namespace ITPI.MAP.ExtractLoadManager
 								orchestration.Log.Error("Unable to clear out staging tables. Stage update has stopped.");
 								return false;
 							}
+							var insertResult = orchestration.InsertStagingData();
+							if (!stageCleared)
+							{
+								orchestration.Log.Error("Unable to populate staging tables. Stage update has stopped.");
+								return false;
+							}
 						}
 
 						if (orchestration.LoadTarget) // Load MAP target tables.

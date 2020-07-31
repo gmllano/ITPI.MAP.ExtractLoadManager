@@ -10,3 +10,55 @@
 2020-07-27 08:06:32,501 INFO - 773 program catalog records inserted.
 2020-07-27 08:06:32,501 INFO - Insert completed successfully. Check log file for any warnings.
 2020-07-27 08:06:32,502 INFO - DONE - Extract and load has completed.
+2020-07-30 20:49:57,300 INFO - BEGIN - Extract and load all files from folder.
+2020-07-30 20:50:04,713 INFO - Source C:\Users\georgel\Documents\ITPI\Chaffey\Files with pattern match *Program*.csv
+2020-07-30 20:50:04,717 INFO - .csv file count 3
+2020-07-30 20:50:12,261 ERROR - Error occurred trying to clear out the temporary Program tables, Exception Cannot find the object "program_requirements" because it does not exist or you do not have permissions.
+2020-07-30 20:52:34,211 INFO - BEGIN - Extract and load all files from folder.
+2020-07-30 20:52:34,225 INFO - Source C:\Users\georgel\Documents\ITPI\Chaffey\Files with pattern match *Program*.csv
+2020-07-30 20:52:34,225 INFO - .csv file count 3
+2020-07-30 20:53:26,196 INFO - 109276 program requirement type records mapped in file ProgramRequirements.csv.
+2020-07-30 20:53:31,579 INFO - 642 Program type records mapped in file Programs.csv.
+2020-07-30 20:53:34,945 INFO - 773 program catalog credit requirement type records mapped in file ProgramsCatalogsCreditReq.csv.
+2020-07-30 20:53:40,596 INFO - Inserting into TEMPORARY PROGRAM tables...
+2020-07-30 20:55:12,849 INFO - 642 program records inserted.
+2020-07-30 20:55:12,850 INFO - 109276 program requirements records inserted.
+2020-07-30 20:55:12,850 INFO - 773 program catalog records inserted.
+2020-07-30 20:55:20,891 INFO - Inserting into STAGING tables...
+2020-07-30 20:55:22,530 ERROR - Error occurred trying to clear out the staging tables, Exception Cannot find the object "Stage_tblSubjects" because it does not exist or you do not have permissions.
+2020-07-30 20:56:57,419 INFO - BEGIN - Extract and load all files from folder.
+2020-07-30 20:56:57,433 INFO - Source C:\Users\georgel\Documents\ITPI\Chaffey\Files with pattern match *Program*.csv
+2020-07-30 20:56:57,433 INFO - .csv file count 3
+2020-07-30 20:57:00,716 INFO - 109276 program requirement type records mapped in file ProgramRequirements.csv.
+2020-07-30 20:57:00,766 INFO - 642 Program type records mapped in file Programs.csv.
+2020-07-30 20:57:00,777 INFO - 773 program catalog credit requirement type records mapped in file ProgramsCatalogsCreditReq.csv.
+2020-07-30 20:57:00,778 INFO - Inserting into TEMPORARY PROGRAM tables...
+2020-07-30 20:58:06,551 INFO - 642 program records inserted.
+2020-07-30 20:58:06,551 INFO - 109276 program requirements records inserted.
+2020-07-30 20:58:06,551 INFO - 773 program catalog records inserted.
+2020-07-30 20:58:11,413 INFO - Inserting into STAGING tables...
+2020-07-30 20:58:12,105 ERROR - Error occurred trying to clear out the staging tables, Exception Cannot find the object "Stage_ProgramCreditReq" because it does not exist or you do not have permissions.
+2020-07-30 20:59:44,999 INFO - BEGIN - Extract and load all files from folder.
+2020-07-30 20:59:45,013 INFO - Source C:\Users\georgel\Documents\ITPI\Chaffey\Files with pattern match *Program*.csv
+2020-07-30 20:59:45,013 INFO - .csv file count 3
+2020-07-30 20:59:48,176 INFO - 109276 program requirement type records mapped in file ProgramRequirements.csv.
+2020-07-30 20:59:48,226 INFO - 642 Program type records mapped in file Programs.csv.
+2020-07-30 20:59:48,237 INFO - 773 program catalog credit requirement type records mapped in file ProgramsCatalogsCreditReq.csv.
+2020-07-30 20:59:48,238 INFO - Inserting into TEMPORARY PROGRAM tables...
+2020-07-30 21:00:54,920 INFO - 642 program records inserted.
+2020-07-30 21:00:54,921 INFO - 109276 program requirements records inserted.
+2020-07-30 21:00:54,921 INFO - 773 program catalog records inserted.
+2020-07-30 21:00:58,227 INFO - Inserting into STAGING tables...
+2020-07-30 21:01:17,202 INFO - DONE - Extract and load has completed.
+2020-07-30 21:08:50,181 INFO - BEGIN - Extract and load all files from folder.
+2020-07-30 21:08:50,207 INFO - Source C:\Users\georgel\Documents\ITPI\Chaffey\Files with pattern match *Program*.csv
+2020-07-30 21:08:50,208 INFO - .csv file count 3
+2020-07-30 21:08:53,991 INFO - 109276 program requirement type records mapped in file ProgramRequirements.csv.
+2020-07-30 21:08:54,068 INFO - 642 Program type records mapped in file Programs.csv.
+2020-07-30 21:08:54,080 INFO - 773 program catalog credit requirement type records mapped in file ProgramsCatalogsCreditReq.csv.
+2020-07-30 21:08:54,081 INFO - Inserting into TEMPORARY PROGRAM tables...
+2020-07-30 21:09:58,213 INFO - 642 program records inserted.
+2020-07-30 21:09:58,214 INFO - 109276 program requirements records inserted.
+2020-07-30 21:09:58,214 INFO - 773 program catalog records inserted.
+2020-07-30 21:09:58,215 INFO - Inserting into STAGING tables...
+2020-07-30 21:10:04,668 INFO - DONE - Extract and load has completed.
