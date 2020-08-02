@@ -46,3 +46,4 @@ C:\Users\georgel\Documents\ITPI\Colleges\Extract\obj\Debug\ITPI.MAP.ExtractLoadM
 C:\Users\georgel\Documents\ITPI\Colleges\Extract\obj\Debug\ITPI.MAP.ExtractLoadManager.csproj.CopyComplete
 C:\Users\georgel\Documents\ITPI\Colleges\Extract\obj\Debug\ITPI.MAP.ExtractLoadManager.exe
 C:\Users\georgel\Documents\ITPI\Colleges\Extract\obj\Debug\ITPI.MAP.ExtractLoadManager.pdb
+C:\Users\georgel\Documents\ITPI\Colleges\Extract\obj\Debug\ITPI.MAP.ExtractLoadManager.csprojAssemblyReference.cache

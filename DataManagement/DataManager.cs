@@ -199,6 +199,11 @@ namespace ITPI.MAP.ExtractLoadManager
 		{
 			try
 			{
+				if (string.IsNullOrEmpty(this.sourceConnection))
+				{
+					throw new ApplicationException("Connection string is empty or missing.");
+				}
+
 				var connection = new SqlConnection(this.sourceConnection);
 
 				using (var conn = connection)
@@ -225,6 +230,11 @@ namespace ITPI.MAP.ExtractLoadManager
 		{
 			try
 			{
+				if (string.IsNullOrEmpty(this.sourceConnection))
+				{
+					throw new ApplicationException("Connection string is empty or missing.");
+				}
+
 				var connection = new SqlConnection(this.sourceConnection);
 
 				using (var conn = connection)

@@ -81,7 +81,6 @@ namespace ITPI.MAP.ExtractLoadManager
 						var extractLoad = new ChaffeyExtractLoad(orchestration);
 						extractLoad.RunOrchestration();
 						orchestration.Log.Info("DONE - Extract and load has completed.");
-						Console.ReadKey();
 					}
 				}
 				catch (Exception exp)

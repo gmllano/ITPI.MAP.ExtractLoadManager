@@ -234,7 +234,6 @@ namespace ITPI.MAP.ExtractLoadManager
 					}
 				}
 
-
 				return true;
 			}
 			catch (Exception exp)

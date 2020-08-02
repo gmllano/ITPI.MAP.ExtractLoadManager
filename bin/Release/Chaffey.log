@@ -1,0 +1,12 @@
+2020-07-31 12:56:19,441 INFO - BEGIN - Extract and load all files from folder.
+2020-07-31 12:56:19,455 INFO - Source C:\Users\georgel\Documents\ITPI\Chaffey\Files with pattern match *Program*.csv
+2020-07-31 12:56:19,456 INFO - .csv file count 3
+2020-07-31 12:56:22,094 INFO - 109276 program requirement type records mapped in file ProgramRequirements.csv.
+2020-07-31 12:56:22,139 INFO - 642 Program type records mapped in file Programs.csv.
+2020-07-31 12:56:22,151 INFO - 773 program catalog credit requirement type records mapped in file ProgramsCatalogsCreditReq.csv.
+2020-07-31 12:56:22,151 INFO - Inserting into TEMPORARY PROGRAM tables...
+2020-07-31 12:59:22,242 INFO - 642 program records inserted.
+2020-07-31 12:59:22,243 INFO - 109276 program requirements records inserted.
+2020-07-31 12:59:22,245 INFO - 773 program catalog records inserted.
+2020-07-31 12:59:22,246 INFO - Inserting into STAGING tables...
+2020-07-31 12:59:33,674 INFO - DONE - Extract and load has completed.

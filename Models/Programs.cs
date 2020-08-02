@@ -2,7 +2,6 @@ using System;
 
 namespace ITPI.MAP.ExtractLoadManager
 {
-	
 	public class Programs
 	{		
 		public string ProgramTitle { get; set; }
