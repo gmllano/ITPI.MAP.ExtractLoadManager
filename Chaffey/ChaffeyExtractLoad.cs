@@ -89,13 +89,14 @@ namespace ITPI.MAP.ExtractLoadManager
 								return false;
 							}
 							var insertResult = orchestration.InsertStagingData();
-							if (!stageCleared)
+							if (!insertResult)
 							{
 								orchestration.Log.Error("Unable to populate staging tables. Stage update has stopped.");
 								return false;
 							}
 						}
 
+						// TODO: Need to finalize staging tables.
 						if (orchestration.LoadTarget) // Load MAP target tables.
 						{
 							this.orchestration.Log.Info("Inserting into MAP TARGET tables...");
