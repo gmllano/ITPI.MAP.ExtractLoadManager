@@ -50,5 +50,18 @@ namespace ITPI.MAP.ExtractLoadManager
 		/// </summary>
 		/// <returns>A value indicating success.</returns>
 		bool InsertStagingData();
+
+		/// <summary>
+		/// Return the staged programs.
+		/// </summary>
+		/// <returns>A list of staged programs.</returns>
+		List<Stage_Program_IssuedForm> GetStagedPrograms();
+
+		/// <summary>
+		/// Return a list of program requirements by program description.
+		/// </summary>
+		/// <param name="programDesc">The program description.</param>
+		/// <returns>A list of program requirements.</returns>
+		List<ProgramRequirements> GetProgramRequirementsByProgram(string programDesc);
 	}
 }

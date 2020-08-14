@@ -335,6 +335,35 @@ namespace ITPI.MAP.ExtractLoadManager
 			}
 		}
 
+		/// <summary>
+		/// Prepare and load programs and courses into the staged program course table.
+		/// </summary>
+		public void LoadProgramsAndCourses()
+		{
+			try
+			{
+				// Get available courses.
+				var programs = this.dataManager.GetStagedPrograms();
+
+				foreach (var program in programs)
+				{
+					var programReqs = this.dataManager.GetProgramRequirementsByProgram(program.Description);
+
+					foreach (var programReq in programReqs)
+					{
+												
+
+
+					}
+				}
+			}
+			catch (Exception exp)
+			{
+				this.Log.Error($"Unable to load program courses, excpetion message {exp.Message}");
+				throw;
+			}
+		}
+
 		#endregion
 
 		#region private methods

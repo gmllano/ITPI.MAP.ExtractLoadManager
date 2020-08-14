@@ -288,7 +288,79 @@ namespace ITPI.MAP.ExtractLoadManager
 			return result;
 		}
 
-		#endregion
+		/// <summary>
+		/// Get all the staged programs.
+		/// </summary>
+		/// <returns>A list of staged programs.</returns>
+		public List<Stage_Program_IssuedForm> GetStagedPrograms()
+		{
+			var stagedPrograms = new List<Stage_Program_IssuedForm>();
 
+			if (string.IsNullOrEmpty(this.sourceConnection))
+			{
+				throw new ApplicationException("Connection string is empty or missing.");
+			}
+
+			try
+			{
+				var connection = new SqlConnection(this.sourceConnection);
+
+				using (var conn = connection)
+				{
+					conn.Open();
+					var sproc = "dbo.StageTables_ProgramIssuedForm_Get";
+					stagedPrograms = connection.Query<Stage_Program_IssuedForm>(sproc,
+						commandType: CommandType.StoredProcedure).ToList();
+
+					return stagedPrograms;
+				}
+			}
+			catch (Exception exp)
+			{
+				log.Error($"Failed to get staged programs from the Stage_Program_IssuedForm table,  exception {exp.Message}");
+			}
+
+			return stagedPrograms;
+		}
+
+		/// <summary>
+		/// Get a list of program requirements.
+		/// </summary>
+		/// <param name="programDesc">The program description.</param>
+		/// <returns>A list of program requirements.</returns>
+		public List<ProgramRequirements> GetProgramRequirementsByProgram(string programDesc)
+		{
+			var programReqs = new List<ProgramRequirements>();
+
+			if (string.IsNullOrEmpty(this.sourceConnection))
+			{
+				throw new ApplicationException("Connection string is empty or missing.");
+			}
+
+			try
+			{
+				var connection = new SqlConnection(this.sourceConnection);
+
+				using (var conn = connection)
+				{
+					conn.Open();
+					var sproc = "dbo.ProgramRequirementsByProgramID_Get";
+					var param = new DynamicParameters();
+					param.Add("ProgramID", programDesc);
+					programReqs = connection.Query<ProgramRequirements>(sproc, param,
+						commandType: CommandType.StoredProcedure).ToList();
+
+					return programReqs;
+				}
+			}
+			catch (Exception exp)
+			{
+				log.Error($"Failed to get program requirement records from the program_requirements table,  exception {exp.Message}");
+			}
+
+			return programReqs;
+		}
+
+		#endregion
 	}
 }
