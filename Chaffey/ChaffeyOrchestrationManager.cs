@@ -351,7 +351,7 @@ namespace ITPI.MAP.ExtractLoadManager
 
 					foreach (var programReq in programReqs)
 					{
-												
+						// TODO, maybe pass this into a funciton to return all teh program courses.			
 
 
 					}

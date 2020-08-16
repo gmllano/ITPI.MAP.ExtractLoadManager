@@ -1,4 +1,5 @@
 ﻿using Dapper;
+using ITPI.MAP.ExtractLoadManager.Models;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -359,6 +360,76 @@ namespace ITPI.MAP.ExtractLoadManager
 			}
 
 			return programReqs;
+		}
+
+		/// <summary>
+		/// Insert program course data.
+		/// </summary>
+		/// <param name="programCourses">A list of program courses.</param>
+		/// <returns>A value indicating success of inserting program course data.</returns>
+		public bool InsertProgramCourse(List<Stage_ProgramsCourses> programCourses)
+		{
+			bool result = false;
+
+			if (string.IsNullOrEmpty(this.sourceConnection))
+			{
+				throw new ApplicationException("Connection string is empty or missing.");
+			}
+
+			if (programCourses != null)
+			{
+				try
+				{
+					var dt = Helper.CreateDataTable<Stage_ProgramsCourses>(programCourses);
+
+					var connection = new SqlConnection(this.sourceConnection);
+					// Insert data.
+					using (var conn = connection)
+					{
+						conn.Open();
+						var sproc = "dbo.StageProgramCourses_Ins";
+						var value = connection.Execute(sproc,
+							new { tvpProgramCourse = dt.AsTableValuedParameter("dbo.TVPProgamCourses") },
+							commandType: CommandType.StoredProcedure);
+
+						result = true;
+					}
+				}
+				catch (Exception exp)
+				{
+					log.Error($"Failed to insert program courses into database. {exp.Message}");
+				}
+			}
+			else
+			{
+				throw new ApplicationException("No program course data to load.");
+			}
+
+			return result;
+		}
+
+		#endregion
+
+		#region private methods
+
+		/// <summary>
+		/// Prepare and Load program course data table.
+		/// </summary>
+		/// <param name="programCourses">An instance of the program course class.</param>
+		/// <returns>Returns a data table.</returns>
+		private DataTable LoadProgramCourse(List<Stage_ProgramsCourses> programCourses)
+		{
+			try
+			{
+				var dt = Helper.CreateDataTable<Stage_ProgramsCourses>(programCourses);
+
+				return dt;
+			}
+			catch (Exception exp)
+			{
+				this.log.Error($"Unable to map program course data into a data table. Exception message {exp.Message}");
+				return null;
+			}
 		}
 
 		#endregion

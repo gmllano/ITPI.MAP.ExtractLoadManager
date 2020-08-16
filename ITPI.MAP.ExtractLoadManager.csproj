@@ -72,6 +72,7 @@
     <Compile Include="Base\OrchestrationBase.cs" />
     <Compile Include="Chaffey\ChaffeyExtractLoad.cs" />
     <Compile Include="Chaffey\ChaffeyOrchestrationManager.cs" />
+    <Compile Include="Common\Helper.cs" />
     <Compile Include="DataManagement\DataManager.cs" />
     <Compile Include="Enums\EnumManager.cs" />
     <Compile Include="Interface\ILogger.cs" />
@@ -81,6 +82,7 @@
     <Compile Include="Models\Programs.cs" />
     <Compile Include="Models\ProgramsCatalogsCreditReq.cs" />
     <Compile Include="Interface\IDataManager.cs" />
+    <Compile Include="Models\Stage_ProgramsCourses.cs" />
     <Compile Include="Models\Stage_Program_IssuedForm.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
