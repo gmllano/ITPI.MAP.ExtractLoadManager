@@ -63,5 +63,12 @@ namespace ITPI.MAP.ExtractLoadManager
 		/// <param name="programDesc">The program description.</param>
 		/// <returns>A list of program requirements.</returns>
 		List<ProgramRequirements> GetProgramRequirementsByProgram(string programDesc);
+
+		/// <summary>
+		/// Get course information
+		/// </summary>
+		/// <param name="courseName">The course name.</param>
+		/// <returns>Return the course issued form.</returns>
+		Stage_Course_IssuedForm GetCourse(string courseName);
 	}
 }

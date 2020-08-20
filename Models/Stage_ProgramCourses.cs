@@ -5,7 +5,7 @@ namespace ITPI.MAP.ExtractLoadManager.Models
 	/// <summary>
 	/// Class responsible to store program course information.
 	/// </summary>
-	public class Stage_ProgramsCourses
+	public class Stage_ProgramCourses
 	{
 		public int Program_Id { get; set; }
 		public int Outline_Id { get; set; }

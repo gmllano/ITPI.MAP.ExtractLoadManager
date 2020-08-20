@@ -82,7 +82,8 @@
     <Compile Include="Models\Programs.cs" />
     <Compile Include="Models\ProgramsCatalogsCreditReq.cs" />
     <Compile Include="Interface\IDataManager.cs" />
-    <Compile Include="Models\Stage_ProgramsCourses.cs" />
+    <Compile Include="Models\Stage_Course_IssuedForm.cs" />
+    <Compile Include="Models\Stage_ProgramCourses.cs" />
     <Compile Include="Models\Stage_Program_IssuedForm.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -367,7 +367,7 @@ namespace ITPI.MAP.ExtractLoadManager
 		/// </summary>
 		/// <param name="programCourses">A list of program courses.</param>
 		/// <returns>A value indicating success of inserting program course data.</returns>
-		public bool InsertProgramCourse(List<Stage_ProgramsCourses> programCourses)
+		public bool InsertProgramCourse(List<Stage_ProgramCourses> programCourses)
 		{
 			bool result = false;
 
@@ -380,7 +380,7 @@ namespace ITPI.MAP.ExtractLoadManager
 			{
 				try
 				{
-					var dt = Helper.CreateDataTable<Stage_ProgramsCourses>(programCourses);
+					var dt = Helper.CreateDataTable<Stage_ProgramCourses>(programCourses);
 
 					var connection = new SqlConnection(this.sourceConnection);
 					// Insert data.
@@ -408,6 +408,44 @@ namespace ITPI.MAP.ExtractLoadManager
 			return result;
 		}
 
+		/// <summary>
+		/// Get Course information by course name.
+		/// </summary>
+		/// <param name="courseName">The course name.</param>
+		/// <returns>Return information on the course issued form.</returns>
+		public Stage_Course_IssuedForm GetCourse(string courseName)
+		{
+			Stage_Course_IssuedForm courseIssuedForm = new Stage_Course_IssuedForm();
+
+			if (string.IsNullOrEmpty(this.sourceConnection))
+			{
+				throw new ApplicationException("Connection string is empty or missing.");
+			}
+
+			try
+			{
+				var connection = new SqlConnection(this.sourceConnection);
+
+				using (var conn = connection)
+				{
+					conn.Open();
+					var sproc = "dbo.Stage_Course_IssuedForm_Get";
+					var param = new DynamicParameters();
+					param.Add("CourseName", courseName);
+					courseIssuedForm = connection.QueryFirst<Stage_Course_IssuedForm>(sproc, param,
+						commandType: CommandType.StoredProcedure);
+
+					return courseIssuedForm;
+				}
+			}
+			catch (Exception exp)
+			{
+				log.Error($"Failed to get course information,  exception {exp.Message}");
+			}
+
+			return courseIssuedForm;
+		}
+
 		#endregion
 
 		#region private methods
@@ -417,11 +455,11 @@ namespace ITPI.MAP.ExtractLoadManager
 		/// </summary>
 		/// <param name="programCourses">An instance of the program course class.</param>
 		/// <returns>Returns a data table.</returns>
-		private DataTable LoadProgramCourse(List<Stage_ProgramsCourses> programCourses)
+		private DataTable LoadProgramCourse(List<Stage_ProgramCourses> programCourses)
 		{
 			try
 			{
-				var dt = Helper.CreateDataTable<Stage_ProgramsCourses>(programCourses);
+				var dt = Helper.CreateDataTable<Stage_ProgramCourses>(programCourses);
 
 				return dt;
 			}

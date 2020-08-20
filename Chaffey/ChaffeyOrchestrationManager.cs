@@ -1,8 +1,11 @@
-﻿using Microsoft.VisualBasic.FileIO;
+﻿using ITPI.MAP.ExtractLoadManager.Models;
+using Microsoft.VisualBasic.FileIO;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.ConstrainedExecution;
+using System.Runtime.InteropServices;
 
 namespace ITPI.MAP.ExtractLoadManager
 {
@@ -342,19 +345,14 @@ namespace ITPI.MAP.ExtractLoadManager
 		{
 			try
 			{
-				// Get available courses.
+				// Get staged programs from program issued form table.
 				var programs = this.dataManager.GetStagedPrograms();
 
 				foreach (var program in programs)
 				{
 					var programReqs = this.dataManager.GetProgramRequirementsByProgram(program.Description);
 
-					foreach (var programReq in programReqs)
-					{
-						// TODO, maybe pass this into a funciton to return all teh program courses.			
-
-
-					}
+					PrepareProgramCourse(programReqs, program);
 				}
 			}
 			catch (Exception exp)
@@ -367,6 +365,75 @@ namespace ITPI.MAP.ExtractLoadManager
 		#endregion
 
 		#region private methods
+
+		private Stage_ProgramCourses PrepareProgramCourse(List<ProgramRequirements> programReqs, Stage_Program_IssuedForm programIssuedForm)
+		{
+			try
+			{
+				// Get required courses.
+				var requiredExist = programReqs.Any(c => c.ACRB_PRINTED_SPEC.Equals("Required Courses", StringComparison.CurrentCultureIgnoreCase));				
+				if (requiredExist)
+				{
+					var requiredCourses = programReqs.Where(c => c.ACRB_PRINTED_SPEC.Equals("Required Courses", StringComparison.CurrentCultureIgnoreCase));
+					int iOrder = 0;
+
+					var programCourse = new Stage_ProgramCourses()
+					{
+						Program_Id = programIssuedForm.Program_Id,
+						Outline_Id = 0,
+						Required = 1,
+						ISubOrder = 0,
+						IOrder = iOrder,
+						Or_Group = 0,
+						C_Group = 0,
+						Group_Desc = "Required Courses",
+						Group_Units = "0",
+						VUnits = 0,
+						ICross = "0",
+						Group_Units_Min = 0,
+						Group_Units_Max = 0,
+						Articulate = false 
+					};
+
+					// TODO: Need to insert above.
+
+					// TODO: Need to insert required courses.
+					foreach (var req in requiredCourses)
+					{
+						var courseName = req.ACRB_FROM_COURSES_CRS_NAME.Replace("-", " ");
+						var courseInfo = this.dataManager.GetCourse(courseName);
+						iOrder += 1;
+
+						if (courseInfo != null)
+						{
+							var reqCourse = new Stage_ProgramCourses()
+							{
+								Program_Id = programIssuedForm.Program_Id,
+								Outline_Id = courseInfo.Outline_Id,
+								Required = 1,
+								ISubOrder = 0,
+								IOrder = iOrder,
+								Or_Group = 0,
+								C_Group = 0,
+								Group_Desc = "Required Courses",
+								Group_Units = "0",
+								VUnits = 0,
+								ICross = "0",
+								Group_Units_Min = 0,
+								Group_Units_Max = 0,
+								Articulate = false
+							};
+						}
+					}
+				}
+				return null;
+			}
+			catch (Exception exp)
+			{
+				Log.Error($"Error preparing course information. Exception Message: {exp.Message}");
+				throw exp;
+			}
+		}
 
 		/// <summary>
 		/// Map Program data.
