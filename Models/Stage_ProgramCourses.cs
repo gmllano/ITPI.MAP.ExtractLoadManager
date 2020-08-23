@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ITPI.MAP.ExtractLoadManager.Models
+namespace ITPI.MAP.ExtractLoadManager
 {
 	/// <summary>
 	/// Class responsible to store program course information.

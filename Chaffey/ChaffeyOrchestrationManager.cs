@@ -1,4 +1,4 @@
-﻿using ITPI.MAP.ExtractLoadManager.Models;
+﻿using ITPI.MAP.ExtractLoadManager;
 using Microsoft.VisualBasic.FileIO;
 using System;
 using System.Collections.Generic;
@@ -370,13 +370,14 @@ namespace ITPI.MAP.ExtractLoadManager
 		{
 			try
 			{
-				// Get required courses.
+				int iOrder = 0;
+
+				// Required Courses.
 				var requiredExist = programReqs.Any(c => c.ACRB_PRINTED_SPEC.Equals("Required Courses", StringComparison.CurrentCultureIgnoreCase));				
 				if (requiredExist)
 				{
 					var requiredCourses = programReqs.Where(c => c.ACRB_PRINTED_SPEC.Equals("Required Courses", StringComparison.CurrentCultureIgnoreCase));
-					int iOrder = 0;
-
+					var programCourses = new List<Stage_ProgramCourses>();
 					var programCourse = new Stage_ProgramCourses()
 					{
 						Program_Id = programIssuedForm.Program_Id,
@@ -395,9 +396,15 @@ namespace ITPI.MAP.ExtractLoadManager
 						Articulate = false 
 					};
 
-					// TODO: Need to insert above.
+					programCourses.Add(programCourse);
+					var value = this.dataManager.InsertProgramCourse(programCourses);
 
-					// TODO: Need to insert required courses.
+					if (value <= 0)
+					{
+						Log.Error("Unable to insert into staging program course table.");
+					}
+
+					var reqProgramCourses = new List<Stage_ProgramCourses>();
 					foreach (var req in requiredCourses)
 					{
 						var courseName = req.ACRB_FROM_COURSES_CRS_NAME.Replace("-", " ");
@@ -423,9 +430,90 @@ namespace ITPI.MAP.ExtractLoadManager
 								Group_Units_Max = 0,
 								Articulate = false
 							};
+
+							reqProgramCourses.Add(reqCourse);
 						}
+
+						this.dataManager.InsertProgramCourse(reqProgramCourses);
 					}
 				}
+
+				// TODO Insert list A, B, and C
+				var programReqDescription = programReqs.FirstOrDefault().ACRB_PRINTED_SPEC.Split('.');
+
+				foreach (var desc in programReqDescription)
+				{
+					// LIST A header.
+					if (desc.Contains("LIST A"))
+					{
+						var firstPos = desc.IndexOf("(");
+						var lastPos = desc.IndexOf(")");
+						string listARequirement = "List A: Select " + desc.Substring(firstPos, Math.Min(desc.Length, lastPos) - firstPos);
+
+						var reqCourse = new Stage_ProgramCourses()
+						{
+							Program_Id = programIssuedForm.Program_Id,
+							Outline_Id = 0,
+							Required = 1,
+							ISubOrder = 0,
+							IOrder = iOrder,
+							Or_Group = 0,
+							C_Group = 0,
+							Group_Desc = listARequirement,
+							Group_Units = "0",
+							VUnits = 0,
+							ICross = "0",
+							Group_Units_Min = 0,
+							Group_Units_Max = 0,
+							Articulate = false
+						};
+
+						var listACourses = new List<Stage_ProgramCourses>();
+						listACourses.Add(reqCourse);
+						var listAId = this.dataManager.InsertProgramCourse(listACourses);
+
+						var listAExist = programReqs.Any(c => c.ACRB_PRINTED_SPEC.Equals("List A", StringComparison.CurrentCultureIgnoreCase));
+						if (listAExist)
+						{
+							var listAReqCourses = programReqs.Where(c => c.ACRB_PRINTED_SPEC.Equals("List A", StringComparison.CurrentCultureIgnoreCase));
+
+							var reqListAProgramCourses = new List<Stage_ProgramCourses>();
+							foreach (var req in listAReqCourses)
+							{
+								var courseName = req.ACRB_FROM_COURSES_CRS_NAME.Replace("-", " ");
+								var courseInfo = this.dataManager.GetCourse(courseName);
+								iOrder += 1;
+
+								if (courseInfo != null)
+								{
+									var reqACourse = new Stage_ProgramCourses()
+									{
+										Program_Id = programIssuedForm.Program_Id,
+										Outline_Id = courseInfo.Outline_Id,
+										Required = 1,
+										ISubOrder = 0,
+										IOrder = iOrder,
+										Or_Group = 0,
+										C_Group = listAId,
+										Group_Desc = "",
+										Group_Units = "0",
+										VUnits = 0,
+										ICross = "0",
+										Group_Units_Min = 0,
+										Group_Units_Max = 0,
+										Articulate = false
+									};
+
+									reqListAProgramCourses.Add(reqACourse);
+								}
+
+								this.dataManager.InsertProgramCourse(reqListAProgramCourses);
+							}
+						}
+					}
+
+				}
+
 				return null;
 			}
 			catch (Exception exp)

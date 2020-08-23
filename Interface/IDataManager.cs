@@ -1,4 +1,5 @@
 ﻿using log4net;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -32,6 +33,13 @@ namespace ITPI.MAP.ExtractLoadManager
 		/// <param name="programCatalogCnt">Number of program catalogs inserted.</param>
 		/// <returns>A value indicating if the operation succeeded.</returns>
 		bool InsertProgramCatalogCreditReq(ProgramsCatalogsCreditReq programCatalogs, ref int programCatalogCnt);
+
+		/// <summary>
+		/// Insert program course into its staging table.
+		/// </summary>
+		/// <param name="programCourses">A list of program courses.</param>
+		/// <returns>The identity insert value.</returns>
+		Int32 InsertProgramCourse(List<Stage_ProgramCourses> programCourses);
 
 		/// <summary>
 		/// Clear out Program tables.

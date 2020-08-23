@@ -1,11 +1,9 @@
 ﻿using Dapper;
-using ITPI.MAP.ExtractLoadManager.Models;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
-using System.Text;
 
 namespace ITPI.MAP.ExtractLoadManager
 {
@@ -367,9 +365,9 @@ namespace ITPI.MAP.ExtractLoadManager
 		/// </summary>
 		/// <param name="programCourses">A list of program courses.</param>
 		/// <returns>A value indicating success of inserting program course data.</returns>
-		public bool InsertProgramCourse(List<Stage_ProgramCourses> programCourses)
+		public Int32 InsertProgramCourse(List<Stage_ProgramCourses> programCourses)
 		{
-			bool result = false;
+			Int32 value = 0;
 
 			if (string.IsNullOrEmpty(this.sourceConnection))
 			{
@@ -388,11 +386,11 @@ namespace ITPI.MAP.ExtractLoadManager
 					{
 						conn.Open();
 						var sproc = "dbo.StageProgramCourses_Ins";
-						var value = connection.Execute(sproc,
+						value = connection.QuerySingle<int>(sproc,
 							new { tvpProgramCourse = dt.AsTableValuedParameter("dbo.TVPProgamCourses") },
 							commandType: CommandType.StoredProcedure);
 
-						result = true;
+						return value;
 					}
 				}
 				catch (Exception exp)
@@ -405,7 +403,7 @@ namespace ITPI.MAP.ExtractLoadManager
 				throw new ApplicationException("No program course data to load.");
 			}
 
-			return result;
+			return value;
 		}
 
 		/// <summary>
