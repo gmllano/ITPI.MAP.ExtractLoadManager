@@ -76,7 +76,7 @@ namespace ITPI.MAP.ExtractLoadManager
 		List<ProgramsCatalogsCreditReq> MapProgramsCatalog(FileInfo file);
 
 		/// <summary>
-		/// Clear out the program tables (temp tables).
+		/// Clear out the program tables (temporary tables).
 		/// </summary>
 		/// <returns>A value indicating success.</returns>
 		bool ClearOutProgramTables();
@@ -87,6 +87,15 @@ namespace ITPI.MAP.ExtractLoadManager
 		/// <returns>A value indicating success.</returns>
 		bool ClearOutStagingTables();
 
-		bool InsertStagingData();
+		/// <summary>
+		/// Load data into the staging program and course issued form tables only.
+		/// </summary>
+		/// <returns>A value indicating success.</returns>
+		bool InsertStagingIssuedFormData();
+
+		/// <summary>
+		/// Load the required courses into staging table stage_tblProgramCourses.
+		/// </summary>
+		void InsertStagingProgramCourses();
 	}
 }

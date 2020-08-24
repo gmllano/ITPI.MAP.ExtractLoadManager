@@ -74,3 +74,106 @@
 2020-08-06 18:33:27,387 INFO - 773 program catalog records inserted.
 2020-08-06 18:33:27,387 INFO - Inserting into STAGING tables...
 2020-08-06 18:33:37,172 INFO - DONE - Extract and load has completed.
+2020-08-23 19:05:39,051 INFO - BEGIN - Extract and load all files from folder.
+2020-08-23 19:05:39,107 INFO - Source C:\Users\georgel\Documents\ITPI\Chaffey\Files with pattern match *Program*.csv
+2020-08-23 19:05:39,110 INFO - .csv file count 3
+2020-08-23 19:05:43,482 INFO - 109276 program requirement type records mapped in file ProgramRequirements.csv.
+2020-08-23 19:05:43,580 INFO - 642 Program type records mapped in file Programs.csv.
+2020-08-23 19:05:43,620 INFO - 773 program catalog credit requirement type records mapped in file ProgramsCatalogsCreditReq.csv.
+2020-08-23 19:05:43,621 INFO - Inserting into TEMPORARY PROGRAM tables...
+2020-08-23 19:07:43,104 INFO - 642 program records inserted.
+2020-08-23 19:07:43,105 INFO - 109276 program requirements records inserted.
+2020-08-23 19:07:43,105 INFO - 773 program catalog records inserted.
+2020-08-23 19:08:02,936 INFO - Inserting into STAGING tables...
+2020-08-23 19:22:24,785 INFO - BEGIN - Extract and load all files from folder.
+2020-08-23 19:22:24,799 INFO - Source C:\Users\georgel\Documents\ITPI\Chaffey\Files with pattern match *Program*.csv
+2020-08-23 19:22:24,800 INFO - .csv file count 3
+2020-08-23 19:22:27,798 INFO - 109276 program requirement type records mapped in file ProgramRequirements.csv.
+2020-08-23 19:22:27,845 INFO - 642 Program type records mapped in file Programs.csv.
+2020-08-23 19:22:27,856 INFO - 773 program catalog credit requirement type records mapped in file ProgramsCatalogsCreditReq.csv.
+2020-08-23 19:22:27,856 INFO - Inserting into TEMPORARY PROGRAM tables...Please wait.
+2020-08-23 19:23:46,276 INFO - 642 program records inserted.
+2020-08-23 19:23:46,277 INFO - 109276 program requirements records inserted.
+2020-08-23 19:23:46,277 INFO - 773 program catalog records inserted.
+2020-08-23 19:23:46,277 INFO - Inserting into STAGING tables...Please wait.
+2020-08-23 19:23:52,070 INFO - Populating staging table program courses.
+2020-08-23 19:24:15,089 ERROR - Failed to get course information,  exception Sequence contains no elements
+2020-08-23 19:24:15,100 ERROR - Failed to get course information,  exception Sequence contains no elements
+2020-08-23 19:24:15,114 ERROR - Failed to get course information,  exception Sequence contains no elements
+2020-08-23 19:24:15,120 ERROR - Failed to get course information,  exception Sequence contains no elements
+2020-08-23 19:24:15,125 ERROR - Failed to get course information,  exception Sequence contains no elements
+2020-08-23 19:24:15,132 ERROR - Failed to get course information,  exception Sequence contains no elements
+2020-08-23 19:24:15,142 ERROR - Failed to get course information,  exception Sequence contains no elements
+2020-08-23 19:24:15,148 ERROR - Failed to get course information,  exception Sequence contains no elements
+2020-08-23 19:24:15,154 ERROR - Failed to get course information,  exception Sequence contains no elements
+2020-08-23 19:24:15,160 ERROR - Failed to get course information,  exception Sequence contains no elements
+2020-08-23 19:24:15,165 ERROR - Failed to get course information,  exception Sequence contains no elements
+2020-08-23 19:24:15,170 ERROR - Failed to get course information,  exception Sequence contains no elements
+2020-08-23 19:24:15,175 ERROR - Failed to get course information,  exception Sequence contains no elements
+2020-08-23 19:24:15,179 ERROR - Failed to get course information,  exception Sequence contains no elements
+2020-08-23 19:24:15,184 ERROR - Failed to get course information,  exception Sequence contains no elements
+2020-08-23 19:24:15,188 ERROR - Failed to get course information,  exception Sequence contains no elements
+2020-08-23 19:24:15,193 ERROR - Failed to get course information,  exception Sequence contains no elements
+2020-08-23 19:24:15,198 ERROR - Failed to get course information,  exception Sequence contains no elements
+2020-08-23 19:24:15,203 ERROR - Failed to get course information,  exception Sequence contains no elements
+2020-08-23 19:36:58,654 INFO - BEGIN - Extract and load all files from folder.
+2020-08-23 19:36:58,667 INFO - Source C:\Users\georgel\Documents\ITPI\Chaffey\Files with pattern match *Program*.csv
+2020-08-23 19:36:58,668 INFO - .csv file count 3
+2020-08-23 19:37:01,719 INFO - 109276 program requirement type records mapped in file ProgramRequirements.csv.
+2020-08-23 19:37:01,764 INFO - 642 Program type records mapped in file Programs.csv.
+2020-08-23 19:37:01,775 INFO - 773 program catalog credit requirement type records mapped in file ProgramsCatalogsCreditReq.csv.
+2020-08-23 19:37:01,776 INFO - Inserting into TEMPORARY PROGRAM tables...Please wait.
+2020-08-23 19:37:56,469 INFO - 642 program records inserted.
+2020-08-23 19:37:56,469 INFO - 109276 program requirements records inserted.
+2020-08-23 19:37:56,469 INFO - 773 program catalog records inserted.
+2020-08-23 19:37:56,470 INFO - Inserting into STAGING tables...Please wait.
+2020-08-23 19:38:01,910 INFO - Populating staging table program courses.
+2020-08-23 19:59:15,102 INFO - BEGIN - Extract and load all files from folder.
+2020-08-23 19:59:15,117 INFO - Source C:\Users\georgel\Documents\ITPI\Chaffey\Files with pattern match *Program*.csv
+2020-08-23 19:59:15,118 INFO - .csv file count 3
+2020-08-23 19:59:18,134 INFO - 109276 program requirement type records mapped in file ProgramRequirements.csv.
+2020-08-23 19:59:18,181 INFO - 642 Program type records mapped in file Programs.csv.
+2020-08-23 19:59:18,191 INFO - 773 program catalog credit requirement type records mapped in file ProgramsCatalogsCreditReq.csv.
+2020-08-23 19:59:18,192 INFO - Inserting into TEMPORARY PROGRAM tables...Please wait.
+2020-08-23 20:00:17,235 INFO - 642 program records inserted.
+2020-08-23 20:00:17,235 INFO - 109276 program requirements records inserted.
+2020-08-23 20:00:17,235 INFO - 773 program catalog records inserted.
+2020-08-23 20:00:17,235 INFO - Inserting into STAGING tables...Please wait.
+2020-08-23 20:00:22,649 INFO - Populating staging table program courses.
+2020-08-23 20:09:04,764 INFO - BEGIN - Extract and load all files from folder.
+2020-08-23 20:09:04,777 INFO - Source C:\Users\georgel\Documents\ITPI\Chaffey\Files with pattern match *Program*.csv
+2020-08-23 20:09:04,778 INFO - .csv file count 3
+2020-08-23 20:09:08,124 INFO - 109276 program requirement type records mapped in file ProgramRequirements.csv.
+2020-08-23 20:09:08,170 INFO - 642 Program type records mapped in file Programs.csv.
+2020-08-23 20:09:08,181 INFO - 773 program catalog credit requirement type records mapped in file ProgramsCatalogsCreditReq.csv.
+2020-08-23 20:09:08,182 INFO - Inserting into TEMPORARY PROGRAM tables...Please wait.
+2020-08-23 20:10:07,692 INFO - 642 program records inserted.
+2020-08-23 20:10:07,692 INFO - 109276 program requirements records inserted.
+2020-08-23 20:10:07,693 INFO - 773 program catalog records inserted.
+2020-08-23 20:10:07,693 INFO - Inserting into STAGING tables...Please wait.
+2020-08-23 20:10:15,896 INFO - Populating staging table program courses.
+2020-08-23 20:10:47,326 INFO - DONE - Extract and load has completed.
+2020-08-23 20:13:27,646 INFO - BEGIN - Extract and load all files from folder.
+2020-08-23 20:13:27,659 INFO - Source C:\Users\georgel\Documents\ITPI\Chaffey\Files with pattern match *Program*.csv
+2020-08-23 20:13:27,660 INFO - .csv file count 3
+2020-08-23 20:13:30,782 INFO - 109276 program requirement type records mapped in file ProgramRequirements.csv.
+2020-08-23 20:13:30,825 INFO - 642 Program type records mapped in file Programs.csv.
+2020-08-23 20:13:30,836 INFO - 773 program catalog credit requirement type records mapped in file ProgramsCatalogsCreditReq.csv.
+2020-08-23 20:13:30,837 INFO - Inserting into TEMPORARY PROGRAM tables...Please wait.
+2020-08-23 20:14:37,487 INFO - 642 program records inserted.
+2020-08-23 20:14:37,488 INFO - 109276 program requirements records inserted.
+2020-08-23 20:14:37,488 INFO - 773 program catalog records inserted.
+2020-08-23 20:14:37,488 INFO - Inserting into STAGING tables...Please wait.
+2020-08-23 20:14:43,265 INFO - Populating staging table program courses.
+2020-08-23 20:18:44,109 INFO - BEGIN - Extract and load all files from folder.
+2020-08-23 20:18:44,122 INFO - Source C:\Users\georgel\Documents\ITPI\Chaffey\Files with pattern match *Program*.csv
+2020-08-23 20:18:44,123 INFO - .csv file count 3
+2020-08-23 20:18:47,095 INFO - 109276 program requirement type records mapped in file ProgramRequirements.csv.
+2020-08-23 20:18:47,141 INFO - 642 Program type records mapped in file Programs.csv.
+2020-08-23 20:18:47,153 INFO - 773 program catalog credit requirement type records mapped in file ProgramsCatalogsCreditReq.csv.
+2020-08-23 20:18:47,154 INFO - Inserting into TEMPORARY PROGRAM tables...Please wait.
+2020-08-23 20:19:51,583 INFO - 642 program records inserted.
+2020-08-23 20:19:51,583 INFO - 109276 program requirements records inserted.
+2020-08-23 20:19:51,583 INFO - 773 program catalog records inserted.
+2020-08-23 20:19:51,583 INFO - Inserting into STAGING tables...Please wait.
+2020-08-23 20:19:56,556 INFO - Populating staging table program courses.

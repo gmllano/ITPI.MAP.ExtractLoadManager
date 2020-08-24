@@ -71,9 +71,18 @@ namespace ITPI.MAP.ExtractLoadManager
 		/// </summary>
 		/// <returns>A value indicating success.</returns>
 		public abstract bool ClearOutStagingTables();
-
-		public abstract bool InsertStagingData();
 		
+		/// <summary>
+		/// Insert staging issued form data.
+		/// </summary>
+		/// <returns></returns>
+		public abstract bool InsertStagingIssuedFormData();
+
+		/// <summary>
+		/// Insert required courses into the staging table stage_tblProgramCourses.
+		/// </summary>
+		public abstract void InsertStagingProgramCourses();
+
 		/// <summary>
 		/// The log.
 		/// </summary>

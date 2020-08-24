@@ -68,7 +68,7 @@ namespace ITPI.MAP.ExtractLoadManager
 					}
 
 					// Insert data.
-					this.orchestration.Log.Info("Inserting into TEMPORARY PROGRAM tables...");
+					this.orchestration.Log.Info("Inserting into TEMPORARY PROGRAM tables...Please wait.");
 					var programResult = orchestration.InsertPrograms(programs, ref programCnt);
 					var programReqResult = orchestration.InsertProgramRequirements(programRequirements, ref programReqCnt);
 					var programCatalogResult = orchestration.InsertProgramCatalogCreditReq(programCatalogCredits, ref programCatalogCnt);
@@ -81,22 +81,27 @@ namespace ITPI.MAP.ExtractLoadManager
 						
 						if (orchestration.LoadStaging)  // Load staging tables.
 						{
-							this.orchestration.Log.Info("Inserting into STAGING tables...");
+							this.orchestration.Log.Info("Inserting into STAGING tables...Please wait.");
 							var stageCleared = this.orchestration.ClearOutStagingTables();
 							if (!stageCleared) 
 							{
 								orchestration.Log.Error("Unable to clear out staging tables. Stage update has stopped.");
 								return false;
 							}
-							var insertResult = orchestration.InsertStagingData();
+							var insertResult = orchestration.InsertStagingIssuedFormData();
 							if (!insertResult)
 							{
 								orchestration.Log.Error("Unable to populate staging tables. Stage update has stopped.");
 								return false;
 							}
+							else
+							{
+								this.orchestration.Log.Info("Populating staging table program courses.");
+								orchestration.InsertStagingProgramCourses();
+							}
 						}
 
-						// TODO: Need to finalize staging tables.
+						// TODO: Need to load target tables.
 						if (orchestration.LoadTarget) // Load MAP target tables.
 						{
 							this.orchestration.Log.Info("Inserting into MAP TARGET tables...");

@@ -325,7 +325,7 @@ namespace ITPI.MAP.ExtractLoadManager
 		/// Insert staging data.
 		/// </summary>
 		/// <returns>Return a value.</returns>
-		public override bool InsertStagingData()
+		public override bool InsertStagingIssuedFormData()
 		{
 			try
 			{
@@ -339,9 +339,9 @@ namespace ITPI.MAP.ExtractLoadManager
 		}
 
 		/// <summary>
-		/// Prepare and load programs and courses into the staged program course table.
+		/// Load the programs required courses onto the staging table Stage_ProgramCourses
 		/// </summary>
-		public void LoadProgramsAndCourses()
+		public override void InsertStagingProgramCourses()
 		{
 			try
 			{
@@ -352,7 +352,7 @@ namespace ITPI.MAP.ExtractLoadManager
 				{
 					var programReqs = this.dataManager.GetProgramRequirementsByProgram(program.Description);
 
-					PrepareProgramCourse(programReqs, program);
+					PrepareAndLoadRequiredCourses(programReqs, program);
 				}
 			}
 			catch (Exception exp)
@@ -366,7 +366,7 @@ namespace ITPI.MAP.ExtractLoadManager
 
 		#region private methods
 
-		private Stage_ProgramCourses PrepareProgramCourse(List<ProgramRequirements> programReqs, Stage_Program_IssuedForm programIssuedForm)
+		private void PrepareAndLoadRequiredCourses(List<ProgramRequirements> programReqs, Stage_Program_IssuedForm programIssuedForm)
 		{
 			try
 			{
@@ -422,7 +422,7 @@ namespace ITPI.MAP.ExtractLoadManager
 								IOrder = iOrder,
 								Or_Group = 0,
 								C_Group = 0,
-								Group_Desc = "Required Courses",
+								Group_Desc = "",
 								Group_Units = "0",
 								VUnits = 0,
 								ICross = "0",
@@ -433,14 +433,15 @@ namespace ITPI.MAP.ExtractLoadManager
 
 							reqProgramCourses.Add(reqCourse);
 						}
-
-						this.dataManager.InsertProgramCourse(reqProgramCourses);
 					}
+					this.dataManager.InsertProgramCourse(reqProgramCourses);
 				}
 
-				// TODO Insert list A, B, and C
+				// Get the top record of the program for required, list a, list b, and list c course requirements.
 				var programReqDescription = programReqs.FirstOrDefault().ACRB_PRINTED_SPEC.Split('.');
 
+				Int32 listAId = 0;
+				Int32 listBId = 0;
 				foreach (var desc in programReqDescription)
 				{
 					// LIST A header.
@@ -448,8 +449,9 @@ namespace ITPI.MAP.ExtractLoadManager
 					{
 						var firstPos = desc.IndexOf("(");
 						var lastPos = desc.IndexOf(")");
-						string listARequirement = "List A: Select " + desc.Substring(firstPos, Math.Min(desc.Length, lastPos) - firstPos);
+						string listARequirement = "List A: Select " + desc.Substring(firstPos + 1, Math.Min(desc.Length, lastPos) - firstPos - 1);
 
+						iOrder += 1;
 						var reqCourse = new Stage_ProgramCourses()
 						{
 							Program_Id = programIssuedForm.Program_Id,
@@ -470,7 +472,7 @@ namespace ITPI.MAP.ExtractLoadManager
 
 						var listACourses = new List<Stage_ProgramCourses>();
 						listACourses.Add(reqCourse);
-						var listAId = this.dataManager.InsertProgramCourse(listACourses);
+						listAId = this.dataManager.InsertProgramCourse(listACourses);
 
 						var listAExist = programReqs.Any(c => c.ACRB_PRINTED_SPEC.Equals("List A", StringComparison.CurrentCultureIgnoreCase));
 						if (listAExist)
@@ -480,7 +482,7 @@ namespace ITPI.MAP.ExtractLoadManager
 							var reqListAProgramCourses = new List<Stage_ProgramCourses>();
 							foreach (var req in listAReqCourses)
 							{
-								var courseName = req.ACRB_FROM_COURSES_CRS_NAME.Replace("-", " ");
+								var courseName = req.ACRB_COURSES_CRS_NAME.Replace("-", " ");
 								var courseInfo = this.dataManager.GetCourse(courseName);
 								iOrder += 1;
 
@@ -506,20 +508,151 @@ namespace ITPI.MAP.ExtractLoadManager
 
 									reqListAProgramCourses.Add(reqACourse);
 								}
-
-								this.dataManager.InsertProgramCourse(reqListAProgramCourses);
 							}
+							this.dataManager.InsertProgramCourse(reqListAProgramCourses);
 						}
 					}
+					else if (desc.Contains("LIST B"))  // List B
+					{
+						var firstPos = desc.IndexOf("(");
+						var lastPos = desc.IndexOf(")");
+						string listBRequirement = "List B: Select " + desc.Substring(firstPos + 1, Math.Min(desc.Length, lastPos) - firstPos - 1);
 
+						iOrder += 1;
+						var reqCourse = new Stage_ProgramCourses()
+						{
+							Program_Id = programIssuedForm.Program_Id,
+							Outline_Id = 0,
+							Required = 1,
+							ISubOrder = 0,
+							IOrder = iOrder,
+							Or_Group = 0,
+							C_Group = listAId,
+							Group_Desc = listBRequirement,
+							Group_Units = "0",
+							VUnits = 0,
+							ICross = "0",
+							Group_Units_Min = 0,
+							Group_Units_Max = 0,
+							Articulate = false
+						};
+
+						var listBCourses = new List<Stage_ProgramCourses>();
+						listBCourses.Add(reqCourse);
+						listBId = this.dataManager.InsertProgramCourse(listBCourses);
+
+						var listBExist = programReqs.Any(c => c.ACRB_PRINTED_SPEC.Equals("List B", StringComparison.CurrentCultureIgnoreCase));
+						if (listBExist)
+						{
+							var listBReqCourses = programReqs.Where(c => c.ACRB_PRINTED_SPEC.Equals("List B", StringComparison.CurrentCultureIgnoreCase));
+
+							var reqListBProgramCourses = new List<Stage_ProgramCourses>();
+							foreach (var req in listBReqCourses)
+							{
+								var courseName = req.ACRB_COURSES_CRS_NAME.Replace("-", " ");
+								var courseInfo = this.dataManager.GetCourse(courseName);
+								iOrder += 1;
+
+								if (courseInfo != null)
+								{
+									var reqBCourse = new Stage_ProgramCourses()
+									{
+										Program_Id = programIssuedForm.Program_Id,
+										Outline_Id = courseInfo.Outline_Id,
+										Required = 1,
+										ISubOrder = 0,
+										IOrder = iOrder,
+										Or_Group = 0,
+										C_Group = listBId,
+										Group_Desc = "",
+										Group_Units = "0",
+										VUnits = 0,
+										ICross = "0",
+										Group_Units_Min = 0,
+										Group_Units_Max = 0,
+										Articulate = false
+									};
+
+									reqListBProgramCourses.Add(reqBCourse);
+								}
+							}
+							this.dataManager.InsertProgramCourse(reqListBProgramCourses);
+						}
+					}
+					else if (desc.Contains("LIST C"))  // List C
+					{
+						var firstPos = desc.IndexOf("(");
+						var lastPos = desc.IndexOf(")");
+						string listCRequirement = "List C: Select " + desc.Substring(firstPos + 1, Math.Min(desc.Length, lastPos) - firstPos - 1);
+
+						iOrder += 1;
+						var reqCourse = new Stage_ProgramCourses()
+						{
+							Program_Id = programIssuedForm.Program_Id,
+							Outline_Id = 0,
+							Required = 1,
+							ISubOrder = 0,
+							IOrder = iOrder,
+							Or_Group = 0,
+							C_Group = listBId,
+							Group_Desc = listCRequirement,
+							Group_Units = "0",
+							VUnits = 0,
+							ICross = "0",
+							Group_Units_Min = 0,
+							Group_Units_Max = 0,
+							Articulate = false
+						};
+
+						var listCCourses = new List<Stage_ProgramCourses>();
+						listCCourses.Add(reqCourse);
+						var listCId = this.dataManager.InsertProgramCourse(listCCourses);
+
+						var listCExist = programReqs.Any(c => c.ACRB_PRINTED_SPEC.Equals("List C", StringComparison.CurrentCultureIgnoreCase));
+						if (listCExist)
+						{
+							var listCReqCourses = programReqs.Where(c => c.ACRB_PRINTED_SPEC.Equals("List C", StringComparison.CurrentCultureIgnoreCase));
+
+							var reqListCProgramCourses = new List<Stage_ProgramCourses>();
+							foreach (var req in listCReqCourses)
+							{
+								var courseName = req.ACRB_COURSES_CRS_NAME.Replace("-", " ");
+								var courseInfo = this.dataManager.GetCourse(courseName);
+								iOrder += 1;
+
+								if (courseInfo != null)
+								{
+									var reqCCourse = new Stage_ProgramCourses()
+									{
+										Program_Id = programIssuedForm.Program_Id,
+										Outline_Id = courseInfo.Outline_Id,
+										Required = 1,
+										ISubOrder = 0,
+										IOrder = iOrder,
+										Or_Group = 0,
+										C_Group = listCId,
+										Group_Desc = "",
+										Group_Units = "0",
+										VUnits = 0,
+										ICross = "0",
+										Group_Units_Min = 0,
+										Group_Units_Max = 0,
+										Articulate = false
+									};
+
+									reqListCProgramCourses.Add(reqCCourse);
+								}
+							}
+							this.dataManager.InsertProgramCourse(reqListCProgramCourses);
+						}
+					}
 				}
-
-				return null;
 			}
 			catch (Exception exp)
 			{
-				Log.Error($"Error preparing course information. Exception Message: {exp.Message}");
-				throw exp;
+				Log.Error($"Error loading required courses. Program ID: {programIssuedForm.Program_Id} " +
+					$"Program: {programIssuedForm.Program} Description: {programIssuedForm.Description} " +
+					$" Semester: {programIssuedForm.Semester} Exception Message: {exp.Message}");
 			}
 		}
 
