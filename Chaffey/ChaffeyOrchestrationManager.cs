@@ -34,7 +34,7 @@ namespace ITPI.MAP.ExtractLoadManager
 		/// <param name="dataManager">The data manager.</param>
 		/// <param name="logger">The log.</param>
 		public ChaffeyOrchestrationManager(string sourcePath, EnumManager.FileTypes fileType, bool loadStaging, 
-			bool loadTarget, IDataManager dataManager, ILogger logger)
+			bool loadTarget, bool loadTemps, IDataManager dataManager, ILogger logger)
 		{
 			this.SourcePath = sourcePath;
 			this.Log = logger;
@@ -42,6 +42,7 @@ namespace ITPI.MAP.ExtractLoadManager
 			this.dataManager = dataManager;
 			this.LoadStaging = loadStaging;
 			this.LoadTarget = loadTarget;
+			this.LoadTemps = loadTemps;
 		}
 
 		#endregion
@@ -350,7 +351,7 @@ namespace ITPI.MAP.ExtractLoadManager
 
 				foreach (var program in programs)
 				{
-					var programReqs = this.dataManager.GetProgramRequirementsByProgram(program.Description);
+					var programReqs = this.dataManager.GetProgramRequirementsByProgram(program.Program.Trim());
 
 					PrepareAndLoadRequiredCourses(programReqs, program);
 				}
@@ -372,11 +373,19 @@ namespace ITPI.MAP.ExtractLoadManager
 			{
 				int iOrder = 0;
 
-				// Required Courses.
-				var requiredExist = programReqs.Any(c => c.ACRB_PRINTED_SPEC.Equals("Required Courses", StringComparison.CurrentCultureIgnoreCase));				
-				if (requiredExist)
+				if (programReqs?.Count <= 0)
 				{
-					var requiredCourses = programReqs.Where(c => c.ACRB_PRINTED_SPEC.Equals("Required Courses", StringComparison.CurrentCultureIgnoreCase));
+					return;
+				}
+
+				// Required Courses.
+				var results = programReqs.Select(c => c.ACRB_PRINTED_SPEC.IndexOf("Complete the following", StringComparison.CurrentCultureIgnoreCase)); 
+				if (results != null)
+				{
+					var subBlockReqCourses = programReqs.FirstOrDefault().subBlock + 1;
+
+					var requiredCourses = programReqs.Where(x => x.subBlock == subBlockReqCourses);
+
 					var programCourses = new List<Stage_ProgramCourses>();
 					var programCourse = new Stage_ProgramCourses()
 					{
@@ -411,7 +420,7 @@ namespace ITPI.MAP.ExtractLoadManager
 						var courseInfo = this.dataManager.GetCourse(courseName);
 						iOrder += 1;
 
-						if (courseInfo != null)
+						if (courseInfo?.Outline_Id > 0)
 						{
 							var reqCourse = new Stage_ProgramCourses()
 							{
@@ -444,12 +453,21 @@ namespace ITPI.MAP.ExtractLoadManager
 				Int32 listBId = 0;
 				foreach (var desc in programReqDescription)
 				{
-					// LIST A header.
-					if (desc.Contains("LIST A"))
+					// List A header.
+					if (desc.IndexOf("LIST A", StringComparison.InvariantCultureIgnoreCase) > 0)
 					{
 						var firstPos = desc.IndexOf("(");
 						var lastPos = desc.IndexOf(")");
-						string listARequirement = "List A: Select " + desc.Substring(firstPos + 1, Math.Min(desc.Length, lastPos) - firstPos - 1);
+						string listAReq = string.Empty;
+
+						if (firstPos <= 0 || lastPos <= 0)
+						{
+							listAReq = desc;
+						}
+						else
+						{
+							 listAReq = "List A: Select " + desc.Substring(firstPos + 1, Math.Min(desc.Length, lastPos) - firstPos - 1);
+						}
 
 						iOrder += 1;
 						var reqCourse = new Stage_ProgramCourses()
@@ -461,7 +479,7 @@ namespace ITPI.MAP.ExtractLoadManager
 							IOrder = iOrder,
 							Or_Group = 0,
 							C_Group = 0,
-							Group_Desc = listARequirement,
+							Group_Desc = listAReq,
 							Group_Units = "0",
 							VUnits = 0,
 							ICross = "0",
@@ -486,7 +504,7 @@ namespace ITPI.MAP.ExtractLoadManager
 								var courseInfo = this.dataManager.GetCourse(courseName);
 								iOrder += 1;
 
-								if (courseInfo != null)
+								if (courseInfo?.Outline_Id > 0)
 								{
 									var reqACourse = new Stage_ProgramCourses()
 									{
@@ -512,11 +530,20 @@ namespace ITPI.MAP.ExtractLoadManager
 							this.dataManager.InsertProgramCourse(reqListAProgramCourses);
 						}
 					}
-					else if (desc.Contains("LIST B"))  // List B
+					else if (desc.IndexOf("LIST B", StringComparison.CurrentCultureIgnoreCase) > 0)  // List B
 					{
 						var firstPos = desc.IndexOf("(");
 						var lastPos = desc.IndexOf(")");
-						string listBRequirement = "List B: Select " + desc.Substring(firstPos + 1, Math.Min(desc.Length, lastPos) - firstPos - 1);
+						string listBReq = string.Empty;
+
+						if (firstPos <= 0 || lastPos <= 0)
+						{
+							listBReq = desc;
+						}
+						else
+						{
+							listBReq = "List B: Select " + desc.Substring(firstPos + 1, Math.Min(desc.Length, lastPos) - firstPos - 1);
+						}
 
 						iOrder += 1;
 						var reqCourse = new Stage_ProgramCourses()
@@ -528,7 +555,7 @@ namespace ITPI.MAP.ExtractLoadManager
 							IOrder = iOrder,
 							Or_Group = 0,
 							C_Group = listAId,
-							Group_Desc = listBRequirement,
+							Group_Desc = listBReq,
 							Group_Units = "0",
 							VUnits = 0,
 							ICross = "0",
@@ -553,7 +580,7 @@ namespace ITPI.MAP.ExtractLoadManager
 								var courseInfo = this.dataManager.GetCourse(courseName);
 								iOrder += 1;
 
-								if (courseInfo != null)
+								if (courseInfo?.Outline_Id > 0)
 								{
 									var reqBCourse = new Stage_ProgramCourses()
 									{
@@ -579,11 +606,20 @@ namespace ITPI.MAP.ExtractLoadManager
 							this.dataManager.InsertProgramCourse(reqListBProgramCourses);
 						}
 					}
-					else if (desc.Contains("LIST C"))  // List C
+					else if (desc.IndexOf("LIST C", StringComparison.CurrentCultureIgnoreCase) > 0)  // List C
 					{
 						var firstPos = desc.IndexOf("(");
 						var lastPos = desc.IndexOf(")");
-						string listCRequirement = "List C: Select " + desc.Substring(firstPos + 1, Math.Min(desc.Length, lastPos) - firstPos - 1);
+						string listCReq = string.Empty;
+
+						if (firstPos <= 0 || lastPos <= 0)
+						{
+							listCReq = desc;
+						}
+						else
+						{
+							listCReq = "List C: Select " + desc.Substring(firstPos + 1, Math.Min(desc.Length, lastPos) - firstPos - 1);
+						}
 
 						iOrder += 1;
 						var reqCourse = new Stage_ProgramCourses()
@@ -595,7 +631,7 @@ namespace ITPI.MAP.ExtractLoadManager
 							IOrder = iOrder,
 							Or_Group = 0,
 							C_Group = listBId,
-							Group_Desc = listCRequirement,
+							Group_Desc = listCReq,
 							Group_Units = "0",
 							VUnits = 0,
 							ICross = "0",

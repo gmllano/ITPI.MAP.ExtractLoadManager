@@ -374,7 +374,7 @@ namespace ITPI.MAP.ExtractLoadManager
 				throw new ApplicationException("Connection string is empty or missing.");
 			}
 
-			if (programCourses != null)
+			if (programCourses?.Count > 0)
 			{
 				try
 				{
@@ -398,10 +398,6 @@ namespace ITPI.MAP.ExtractLoadManager
 					log.Error($"Failed to insert program courses into database. {exp.Message}");
 				}
 			}
-			else
-			{
-				throw new ApplicationException("No program course data to load.");
-			}
 
 			return value;
 		}
@@ -413,6 +409,9 @@ namespace ITPI.MAP.ExtractLoadManager
 		/// <returns>Return information on the course issued form.</returns>
 		public Stage_Course_IssuedForm GetCourse(string courseName)
 		{
+			if (courseName == string.Empty)
+				return null;
+
 			Stage_Course_IssuedForm courseIssuedForm = new Stage_Course_IssuedForm();
 
 			if (string.IsNullOrEmpty(this.sourceConnection))
@@ -430,7 +429,7 @@ namespace ITPI.MAP.ExtractLoadManager
 					var sproc = "dbo.Stage_Course_IssuedForm_Get";
 					var param = new DynamicParameters();
 					param.Add("CourseName", courseName);
-					courseIssuedForm = connection.QueryFirst<Stage_Course_IssuedForm>(sproc, param,
+					courseIssuedForm = connection.QueryFirstOrDefault<Stage_Course_IssuedForm>(sproc, param,
 						commandType: CommandType.StoredProcedure);
 
 					return courseIssuedForm;

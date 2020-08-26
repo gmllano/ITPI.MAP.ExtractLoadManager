@@ -102,5 +102,10 @@ namespace ITPI.MAP.ExtractLoadManager
 		/// A value indicating whether to load target tables.
 		/// </summary>
 		public virtual bool LoadTarget { get; set; }
+
+		/// <summary>
+		/// A value indicating whether to load temporary tables.
+		/// </summary>
+		public virtual bool LoadTemps { get; set; }
 	}
 }

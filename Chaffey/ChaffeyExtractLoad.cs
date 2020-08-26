@@ -31,92 +31,92 @@ namespace ITPI.MAP.ExtractLoadManager
 
 				if (files != null)
 				{
-					// Clear out program tables.
-					var result = orchestration.ClearOutProgramTables();
-
-					if (!result)
+					if (this.orchestration.LoadTemps)
 					{
-						orchestration.Log.Error("Unable to clear out program tables.");
-						throw new ApplicationException("Unable to clear out program tables.");
-					}
+						// Clear out program tables.
+						var result = orchestration.ClearOutProgramTables();
 
-					// Map data.
-					foreach (var file in files)
-					{
-						switch ((EnumManager.programType)file.Key)
+						if (!result)
 						{
-							case EnumManager.programType.Programs:
-								programs = orchestration.MapPrograms(file.Value);
-								break;
-							case EnumManager.programType.ProgramRequirements:
-								programRequirements = orchestration.MapProgramRequirements(file.Value);
-								break;
-							case EnumManager.programType.ProgramsCatalogsCreditReq:
-								programCatalogCredits = orchestration.MapProgramsCatalog(file.Value);
-								break;
-							default:
-								break;
+							orchestration.Log.Error("Unable to clear out program tables.");
+							throw new ApplicationException("Unable to clear out program tables.");
+						}
+
+						// Map data.
+						foreach (var file in files)
+						{
+							switch ((EnumManager.programType)file.Key)
+							{
+								case EnumManager.programType.Programs:
+									programs = orchestration.MapPrograms(file.Value);
+									break;
+								case EnumManager.programType.ProgramRequirements:
+									programRequirements = orchestration.MapProgramRequirements(file.Value);
+									break;
+								case EnumManager.programType.ProgramsCatalogsCreditReq:
+									programCatalogCredits = orchestration.MapProgramsCatalog(file.Value);
+									break;
+								default:
+									break;
+							}
+						}
+
+						// I'm assuming that all three files will always be present. Not sure how you would
+						// load just one file into MAP without the others.
+						if (programs?.Count <= 0 || programRequirements?.Count <= 0 || programCatalogCredits?.Count <= 0)
+						{
+							orchestration.Log.Error("One or more files were not mapped correctly. Load can't be completed.");
+							return false;
+						}
+
+						// Insert data.
+						this.orchestration.Log.Info("Inserting into TEMPORARY PROGRAM tables...Please wait.");
+						var programResult = orchestration.InsertPrograms(programs, ref programCnt);
+						var programReqResult = orchestration.InsertProgramRequirements(programRequirements, ref programReqCnt);
+						var programCatalogResult = orchestration.InsertProgramCatalogCreditReq(programCatalogCredits, ref programCatalogCnt);
+
+						if (programResult && programReqResult && programCatalogResult)
+						{
+							this.orchestration.Log.Info($"{programCnt} program records inserted.");
+							this.orchestration.Log.Info($"{programReqCnt} program requirements records inserted.");
+							this.orchestration.Log.Info($"{programCatalogCnt} program catalog records inserted.");
 						}
 					}
 
-					// I'm assuming that all three files will always be present. Not sure how you would
-					// load just one file into MAP without the others.
-					if (programs?.Count <= 0 || programRequirements?.Count <= 0 || programCatalogCredits?.Count <= 0)
+					if (orchestration.LoadStaging)  // Load staging tables.
 					{
-						orchestration.Log.Error("One or more files were not mapped correctly. Load can't be completed.");
-						return false;
+						var stageCleared = this.orchestration.ClearOutStagingTables();
+						if (!stageCleared) 
+						{
+							orchestration.Log.Error("Unable to clear out staging tables. Stage update has stopped.");
+							return false;
+						}
+
+						this.orchestration.Log.Info("Populating STAGING ISSUED FORM tables.");
+						var insertResult = orchestration.InsertStagingIssuedFormData();
+						if (!insertResult)
+						{
+							orchestration.Log.Error("Unable to populate staging issued form tables. Stage update has stopped.");
+							return false;
+						}
+						else
+						{
+							this.orchestration.Log.Info("Populating STAGING PROGRAM COURSES table.  Please wait, this may take several minutes.");
+							orchestration.InsertStagingProgramCourses();
+						}
 					}
 
-					// Insert data.
-					this.orchestration.Log.Info("Inserting into TEMPORARY PROGRAM tables...Please wait.");
-					var programResult = orchestration.InsertPrograms(programs, ref programCnt);
-					var programReqResult = orchestration.InsertProgramRequirements(programRequirements, ref programReqCnt);
-					var programCatalogResult = orchestration.InsertProgramCatalogCreditReq(programCatalogCredits, ref programCatalogCnt);
+					// TODO: Need to load target tables.
+					if (orchestration.LoadTarget) // Load MAP target tables.
+					{
+						this.orchestration.Log.Info("Inserting into MAP TARGET tables...");
+					}
 					
-					if (programResult && programReqResult && programCatalogResult)
-					{
-						this.orchestration.Log.Info($"{programCnt} program records inserted.");
-						this.orchestration.Log.Info($"{programReqCnt} program requirements records inserted.");
-						this.orchestration.Log.Info($"{programCatalogCnt} program catalog records inserted.");
-						
-						if (orchestration.LoadStaging)  // Load staging tables.
-						{
-							this.orchestration.Log.Info("Inserting into STAGING tables...Please wait.");
-							var stageCleared = this.orchestration.ClearOutStagingTables();
-							if (!stageCleared) 
-							{
-								orchestration.Log.Error("Unable to clear out staging tables. Stage update has stopped.");
-								return false;
-							}
-							var insertResult = orchestration.InsertStagingIssuedFormData();
-							if (!insertResult)
-							{
-								orchestration.Log.Error("Unable to populate staging tables. Stage update has stopped.");
-								return false;
-							}
-							else
-							{
-								this.orchestration.Log.Info("Populating staging table program courses.");
-								orchestration.InsertStagingProgramCourses();
-							}
-						}
-
-						// TODO: Need to load target tables.
-						if (orchestration.LoadTarget) // Load MAP target tables.
-						{
-							this.orchestration.Log.Info("Inserting into MAP TARGET tables...");
-						}
-					}
-					else
-					{
-						orchestration.Log.Error("Insert completed with errors, check the log file for errors.");
-						return false;
-					}
-
 					return true;
 				}
 				else
 				{
+					this.orchestration.Log.Warn("No files found to load.");
 					return false;
 				}
 			}

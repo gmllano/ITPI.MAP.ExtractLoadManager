@@ -24,6 +24,8 @@ namespace ITPI.MAP.ExtractLoadManager
 		/// </summary>
 		bool LoadTarget { get; set; }
 
+		bool LoadTemps { get; set; }
+
 		/// <summary>
 		/// Get the files from the source directory.
 		/// </summary>

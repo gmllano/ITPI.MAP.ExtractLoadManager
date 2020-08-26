@@ -21,6 +21,7 @@ namespace ITPI.MAP.ExtractLoadManager
 				var college = ConfigurationManager.AppSettings["College"];
 				var loadStaging = Convert.ToBoolean(ConfigurationManager.AppSettings["LoadStaging"]);
 				var loadTarget = Convert.ToBoolean(ConfigurationManager.AppSettings["LoadTarget"]);
+				var loadTemps = Convert.ToBoolean(ConfigurationManager.AppSettings["LoadTemps"]);
 
 				if (string.IsNullOrEmpty(sourcePath))
 				{
@@ -52,7 +53,10 @@ namespace ITPI.MAP.ExtractLoadManager
 							   (pi, ctx) => loadStaging))
 					.WithParameter(new ResolvedParameter(
 							   (pi, ctx) => pi.ParameterType == typeof(bool) && pi.Name == "loadTarget",
-							   (pi, ctx) => loadTarget));
+							   (pi, ctx) => loadTarget))
+					.WithParameter(new ResolvedParameter(
+							   (pi, ctx) => pi.ParameterType == typeof(bool) && pi.Name == "loadTemps",
+							   (pi, ctx) => loadTemps));
 
 				Container = builder.Build();
 
