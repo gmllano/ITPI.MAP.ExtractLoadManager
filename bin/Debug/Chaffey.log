@@ -4,3 +4,14 @@
 2020-08-25 22:34:42,466 INFO - Populating STAGING ISSUED FORM tables.
 2020-08-25 22:34:47,961 INFO - Populating STAGING PROGRAM COURSES table.  Please wait, this may take several minutes.
 2020-08-25 22:35:02,242 INFO - DONE - Extract and load has completed.
+2020-08-26 20:55:02,140 INFO - BEGIN - Extract and load all files from folder.
+2020-08-26 20:55:02,156 INFO - Source C:\Users\georgel\Documents\ITPI\Chaffey\Files with pattern match *Program*.csv
+2020-08-26 20:55:02,157 INFO - .csv file count 3
+2020-08-26 20:55:02,544 INFO - Populating STAGING ISSUED FORM tables.
+2020-08-26 20:55:07,706 INFO - Populating STAGING PROGRAM COURSES table.  Please wait, this may take several minutes.
+2020-08-26 21:28:31,234 INFO - BEGIN - Extract and load all files from folder.
+2020-08-26 21:28:31,248 INFO - Source C:\Users\georgel\Documents\ITPI\Chaffey\Files with pattern match *Program*.csv
+2020-08-26 21:28:31,248 INFO - .csv file count 3
+2020-08-26 21:28:31,365 INFO - Populating STAGING ISSUED FORM tables.
+2020-08-26 21:28:36,896 INFO - Populating STAGING PROGRAM COURSES table.  Please wait, this may take several minutes.
+2020-08-26 21:31:52,275 INFO - DONE - Extract and load has completed.
