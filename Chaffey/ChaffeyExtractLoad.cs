@@ -106,10 +106,21 @@ namespace ITPI.MAP.ExtractLoadManager
 						}
 					}
 
-					// TODO: Need to load target tables.
 					if (orchestration.LoadTarget) // Load MAP target tables.
 					{
 						this.orchestration.Log.Info("Inserting into MAP TARGET tables...");
+						var result = orchestration.InsertIssuedFormData();
+
+						if (!result)
+						{
+							orchestration.Log.Error("Unable to populate the production issued form tables for both program and courses.");
+							return false;
+						}
+						else
+						{
+							this.orchestration.Log.Info("Populating PRODUCTION PROGRAM COURSES table.  Please wait, this may take several minutes.");
+							orchestration.InsertProgramCoursesData();
+						}
 					}
 					
 					return true;

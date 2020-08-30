@@ -84,6 +84,17 @@ namespace ITPI.MAP.ExtractLoadManager
 		public abstract void InsertStagingProgramCourses();
 
 		/// <summary>
+		/// Insert issued form data into production tables.
+		/// </summary>
+		/// <returns>A value indicating success of inserting the data.</returns>
+		public abstract bool InsertIssuedFormData();
+
+		/// <summary>
+		/// Insert required courses into its production table stage_tblProgramCourses.
+		/// </summary>
+		public abstract void InsertProgramCoursesData();
+		
+		/// <summary>
 		/// The log.
 		/// </summary>
 		public virtual  ILogger Log { get; set; }

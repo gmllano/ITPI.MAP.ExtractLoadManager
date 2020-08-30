@@ -443,29 +443,122 @@ namespace ITPI.MAP.ExtractLoadManager
 			return courseIssuedForm;
 		}
 
-		#endregion
-
-		#region private methods
+		#region production methods 
 
 		/// <summary>
-		/// Prepare and Load program course data table.
+		/// Insert issued form data into production tables.
 		/// </summary>
-		/// <param name="programCourses">An instance of the program course class.</param>
-		/// <returns>Returns a data table.</returns>
-		private DataTable LoadProgramCourse(List<Stage_ProgramCourses> programCourses)
+		/// <returns>A value indicating sucess of inserting data.</returns>
+		public bool InsertIssuedFormData()
 		{
+			bool result = false;
+
+			if (string.IsNullOrEmpty(this.sourceConnection))
+			{
+				throw new ApplicationException("Connection string is empty or missing.");
+			}
+
 			try
 			{
-				var dt = Helper.CreateDataTable<Stage_ProgramCourses>(programCourses);
+				var connection = new SqlConnection(this.sourceConnection);
 
-				return dt;
+				using (var conn = connection)
+				{
+					conn.Open();
+					var sproc = "dbo.IssuedFormTables_Ins";
+					var value = connection.Execute(sproc,
+						commandType: CommandType.StoredProcedure);
+
+					result = true;
+				}
 			}
 			catch (Exception exp)
 			{
-				this.log.Error($"Unable to map program course data into a data table. Exception message {exp.Message}");
-				return null;
+				log.Error($"Failed to populate issused form data for program and courses,  exception {exp.Message}");
 			}
+
+			return result;
 		}
+
+		public int InsertProgramCourseData(List<Stage_ProgramCourses> programCourses)
+		{
+			Int32 value = 0;
+
+			if (string.IsNullOrEmpty(this.sourceConnection))
+			{
+				throw new ApplicationException("Connection string is empty or missing.");
+			}
+
+			if (programCourses?.Count > 0)
+			{
+				try
+				{
+					var dt = Helper.CreateDataTable<Stage_ProgramCourses>(programCourses);
+
+					var connection = new SqlConnection(this.sourceConnection);
+					// Insert data.
+					using (var conn = connection)
+					{
+						conn.Open();
+						var sproc = "dbo.ProgramCourses_Ins";
+						value = connection.QuerySingle<int>(sproc,
+							new { tvpProgramCourse = dt.AsTableValuedParameter("dbo.TVPProgamCourses") },
+							commandType: CommandType.StoredProcedure);
+
+						return value;
+					}
+				}
+				catch (Exception exp)
+				{
+					log.Error($"Failed to insert program courses into its production table. {exp.Message}");
+				}
+			}
+
+			return value;
+		}
+
+		/// <summary>
+		/// Get Course data information by course name.
+		/// </summary>
+		/// <param name="courseName">The course name.</param>
+		/// <returns>Return information on the course issued form.</returns>
+		public Stage_Course_IssuedForm GetCourseData(string courseName)
+		{
+			if (courseName == string.Empty)
+				return null;
+
+			Stage_Course_IssuedForm courseIssuedForm = new Stage_Course_IssuedForm();
+
+			if (string.IsNullOrEmpty(this.sourceConnection))
+			{
+				throw new ApplicationException("Connection string is empty or missing.");
+			}
+
+			try
+			{
+				var connection = new SqlConnection(this.sourceConnection);
+
+				using (var conn = connection)
+				{
+					conn.Open();
+					var sproc = "dbo.Course_IssuedForm_Get";
+					var param = new DynamicParameters();
+					param.Add("CourseName", courseName);
+					courseIssuedForm = connection.QueryFirstOrDefault<Stage_Course_IssuedForm>(sproc, param,
+						commandType: CommandType.StoredProcedure);
+
+					return courseIssuedForm;
+				}
+			}
+			catch (Exception exp)
+			{
+				log.Error($"Failed to get course information from production course issued form table,  exception {exp.Message}");
+			}
+
+			return courseIssuedForm;
+		}
+
+		#endregion
 
 		#endregion
 	}

@@ -78,5 +78,25 @@ namespace ITPI.MAP.ExtractLoadManager
 		/// <param name="courseName">The course name.</param>
 		/// <returns>Return the course issued form.</returns>
 		Stage_Course_IssuedForm GetCourse(string courseName);
+
+		/// <summary>
+		/// Prepare issued form data in production tables.
+		/// </summary>
+		/// <returns>Return a value indicating success of the insert.</returns>
+		bool InsertIssuedFormData();
+
+		/// <summary>
+		/// Insert program course object into its production table.
+		/// </summary>
+		/// <param name="programCourses">A list of program courses.</param>
+		/// <returns>The identity insert value.</returns>
+		Int32 InsertProgramCourseData(List<Stage_ProgramCourses> programCourses);
+
+		/// <summary>
+		/// Get course information from course isssued form table.
+		/// </summary>
+		/// <param name="courseName">The course name.</param>
+		/// <returns>Return the course issued form.</returns>
+		Stage_Course_IssuedForm GetCourseData(string courseName);
 	}
 }

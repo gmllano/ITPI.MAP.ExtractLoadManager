@@ -99,5 +99,16 @@ namespace ITPI.MAP.ExtractLoadManager
 		/// Load the required courses into staging table stage_tblProgramCourses.
 		/// </summary>
 		void InsertStagingProgramCourses();
+
+		/// <summary>
+		/// Insert issued form data into production tables. Both programs and courses.
+		/// </summary>
+		/// <returns>A value indicating success.</returns>
+		bool InsertIssuedFormData();
+
+		/// <summary>
+		/// Load the required courses into production table tblProgramCourses.
+		/// </summary>
+		void InsertProgramCoursesData();
 	}
 }
