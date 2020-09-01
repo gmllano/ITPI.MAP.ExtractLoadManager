@@ -21,3 +21,11 @@
 2020-08-30 15:51:12,506 INFO - Populating STAGING ISSUED FORM tables.
 2020-08-30 15:58:23,114 INFO - Populating STAGING PROGRAM COURSES table.  Please wait, this may take several minutes.
 2020-08-30 16:00:30,783 INFO - DONE - Extract and load has completed.
+2020-08-30 20:23:32,988 INFO - BEGIN - Extract and load all files from folder.
+2020-08-30 20:23:33,006 INFO - Source C:\Users\georgel\Documents\ITPI\Chaffey\Files with pattern match *Program*.csv
+2020-08-30 20:23:33,006 INFO - .csv file count 3
+2020-08-30 20:23:33,463 INFO - Populating STAGING ISSUED FORM tables.
+2020-08-30 20:23:46,660 INFO - Populating STAGING PROGRAM COURSES table.  Please wait, this may take several minutes.
+2020-08-30 20:24:07,822 INFO - Populating Issued Form Production tables...
+2020-08-30 20:24:19,022 ERROR - Failed to populate issused form data for program and courses,  exception Cannot insert the value NULL into column 'program_id', table 'NORCO.dbo.Program_IssuedForm'; column does not allow nulls. INSERT fails.
+The statement has been terminated.

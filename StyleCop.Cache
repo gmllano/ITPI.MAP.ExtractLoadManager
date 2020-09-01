@@ -1073,14 +1073,11 @@
       </violation>
     </violations>
   </sourcecode>
-  <project key="1100598501">
-    <configuration>DEBUG;TRACE</configuration>
-  </project>
   <sourcecode name="ChaffeyExtractLoad.cs" parser="StyleCop.CSharp.CsParser">
     <timestamps>
       <styleCop>2019/04/08 20:27:32.000</styleCop>
       <settingsFile>2020/06/16 20:56:37.668</settingsFile>
-      <sourceFile>2020/08/30 16:33:30.730</sourceFile>
+      <sourceFile>2020/08/30 20:15:07.664</sourceFile>
       <parser>2019/04/08 20:27:32.000</parser>
       <StyleCop.CSharp.DocumentationRules>2019/04/08 20:27:32.000</StyleCop.CSharp.DocumentationRules>
       <StyleCop.CSharp.DocumentationRules.FilesHashCode>-933181300</StyleCop.CSharp.DocumentationRules.FilesHashCode>
@@ -1115,4 +1112,7 @@
       </violation>
     </violations>
   </sourcecode>
+  <project key="1100598501">
+    <configuration>DEBUG;TRACE</configuration>
+  </project>
 </stylecopresultscache>

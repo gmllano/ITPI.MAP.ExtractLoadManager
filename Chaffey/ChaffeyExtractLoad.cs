@@ -108,7 +108,7 @@ namespace ITPI.MAP.ExtractLoadManager
 
 					if (orchestration.LoadTarget) // Load MAP target tables.
 					{
-						this.orchestration.Log.Info("Inserting into MAP TARGET tables...");
+						this.orchestration.Log.Info("Populating Issued Form Production tables...");
 						var result = orchestration.InsertIssuedFormData();
 
 						if (!result)
@@ -118,7 +118,7 @@ namespace ITPI.MAP.ExtractLoadManager
 						}
 						else
 						{
-							this.orchestration.Log.Info("Populating PRODUCTION PROGRAM COURSES table.  Please wait, this may take several minutes.");
+							this.orchestration.Log.Info("Populating Production Program Courses table.  Please wait, this may take several minutes.");
 							orchestration.InsertProgramCoursesData();
 						}
 					}
