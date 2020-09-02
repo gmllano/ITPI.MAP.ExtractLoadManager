@@ -29,3 +29,31 @@
 2020-08-30 20:24:07,822 INFO - Populating Issued Form Production tables...
 2020-08-30 20:24:19,022 ERROR - Failed to populate issused form data for program and courses,  exception Cannot insert the value NULL into column 'program_id', table 'NORCO.dbo.Program_IssuedForm'; column does not allow nulls. INSERT fails.
 The statement has been terminated.
+2020-09-01 22:21:51,729 INFO - BEGIN - Extract and load all files from folder.
+2020-09-01 22:21:51,759 INFO - Source C:\Users\georgel\Documents\ITPI\Chaffey\Files with pattern match *Program*.csv
+2020-09-01 22:21:51,762 INFO - .csv file count 3
+2020-09-01 22:21:52,240 INFO - Populating STAGING ISSUED FORM tables.
+2020-09-01 22:21:58,676 INFO - Populating STAGING PROGRAM COURSES table.  Please wait, this may take several minutes.
+2020-09-01 22:22:18,052 INFO - Populating Issued Form Production tables...
+2020-09-01 22:29:15,950 INFO - BEGIN - Extract and load all files from folder.
+2020-09-01 22:29:15,968 INFO - Source C:\Users\georgel\Documents\ITPI\Chaffey\Files with pattern match *Program*.csv
+2020-09-01 22:29:15,969 INFO - .csv file count 3
+2020-09-01 22:29:16,065 INFO - Populating STAGING ISSUED FORM tables.
+2020-09-01 22:29:21,992 INFO - Populating STAGING PROGRAM COURSES table.  Please wait, this may take several minutes.
+2020-09-01 22:29:31,194 INFO - Populating Issued Form Production tables...
+2020-09-01 22:30:01,261 INFO - Populating Production Program Courses table.  Please wait, this may take several minutes.
+2020-09-01 22:30:44,309 INFO - DONE - Extract and load has completed.
+2020-09-01 23:18:29,673 INFO - BEGIN - Extract and load all files from folder.
+2020-09-01 23:18:29,688 INFO - Source C:\Users\georgel\Documents\ITPI\Chaffey\Files with pattern match *Program*.csv
+2020-09-01 23:18:29,689 INFO - .csv file count 3
+2020-09-01 23:18:30,205 INFO - Populating STAGING ISSUED FORM tables.
+2020-09-01 23:18:36,564 INFO - Populating STAGING PROGRAM COURSES table.  Please wait, this may take several minutes.
+2020-09-01 23:19:34,784 INFO - Populating Issued Form Production tables...
+2020-09-01 23:30:13,036 INFO - BEGIN - Extract and load all files from folder.
+2020-09-01 23:30:13,050 INFO - Source C:\Users\georgel\Documents\ITPI\Chaffey\Files with pattern match *Program*.csv
+2020-09-01 23:30:13,051 INFO - .csv file count 3
+2020-09-01 23:30:13,370 INFO - Populating STAGING ISSUED FORM tables.
+2020-09-01 23:30:19,791 INFO - Populating STAGING PROGRAM COURSES table.  Please wait, this may take several minutes.
+2020-09-01 23:30:51,283 INFO - Populating Issued Form Production tables...
+2020-09-01 23:30:56,271 INFO - Populating Production Program Courses table.  Please wait, this may take several minutes.
+2020-09-01 23:33:07,981 INFO - DONE - Extract and load has completed.
